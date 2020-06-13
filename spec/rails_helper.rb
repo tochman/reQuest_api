@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'coveralls'
+Coveralls.wear_merged!('rails')
+
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 
