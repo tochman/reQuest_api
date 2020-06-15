@@ -1,7 +1,7 @@
 # README
 
-ENDPOINTS  
-All endpoints are prefix with `/api`
+## ENDPOINTS  
+All endpoints are prefixed with `/api`
 
 ### /requests
 #### POST /requests
