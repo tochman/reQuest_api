@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: reQuest_api_development
+
+test:
+  <<: *default
+  database: reQuest_api_test
+
+production:
+  <<: *default
+  database: reQuest_api_production
+  username: reQuest_api
+  password: <%= ENV['REQUEST_API_DATABASE_PASSWORD'] %>
