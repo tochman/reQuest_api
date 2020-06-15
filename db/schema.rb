@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_15_181128) do
+ActiveRecord::Schema.define(version: 2020_06_15_183006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "quests", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description", null: false
+    t.bigint "requester_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["requester_id"], name: "index_quests_on_requester_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -40,4 +49,5 @@ ActiveRecord::Schema.define(version: 2020_06_15_181128) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "quests", "users", column: "requester_id"
 end
