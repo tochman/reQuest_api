@@ -1,4 +1,4 @@
-class Api::QuestsController < ApplicationController
+class Api::RequestsController < ApplicationController
   before_action :authenticate_user!
 
   def create

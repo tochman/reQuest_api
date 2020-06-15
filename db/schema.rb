@@ -15,13 +15,13 @@ ActiveRecord::Schema.define(version: 2020_06_15_183006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "quests", force: :cascade do |t|
+  create_table "requests", force: :cascade do |t|
     t.string "title", null: false
     t.text "description", null: false
     t.bigint "requester_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["requester_id"], name: "index_quests_on_requester_id"
+    t.index ["requester_id"], name: "index_requests_on_requester_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -37,8 +37,6 @@ ActiveRecord::Schema.define(version: 2020_06_15_183006) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.string "name"
-    t.string "nickname"
-    t.string "image"
     t.string "email"
     t.json "tokens"
     t.datetime "created_at", precision: 6, null: false
@@ -49,5 +47,5 @@ ActiveRecord::Schema.define(version: 2020_06_15_183006) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  add_foreign_key "quests", "users", column: "requester_id"
+  add_foreign_key "requests", "users", column: "requester_id"
 end

@@ -1,4 +1,4 @@
-RSpec.describe Quest, type: :model do
+RSpec.describe Request, type: :model do
   let(:user) { create(:user) }
 
   describe 'database table' do
@@ -17,7 +17,7 @@ RSpec.describe Quest, type: :model do
 
   describe 'factory' do
     it 'should be valid' do
-      expect(create(:quest)).to be_valid
+      expect(create(:request)).to be_valid
     end
   end
 end
