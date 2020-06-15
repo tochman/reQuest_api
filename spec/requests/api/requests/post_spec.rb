@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'POST /api/requests, user can create a request', type: :request do
   let(:user) { create(:user) }
   let(:credentials) { user.create_new_auth_token }

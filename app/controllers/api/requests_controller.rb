@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::RequestsController < ApplicationController
   before_action :authenticate_user!
 
@@ -13,7 +15,7 @@ class Api::RequestsController < ApplicationController
   end
 
   private
-  
+
   def request_params
     ActionController::Parameters.action_on_unpermitted_parameters = :raise
     params.permit(:title, :description)
