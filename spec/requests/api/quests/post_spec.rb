@@ -16,7 +16,7 @@ RSpec.describe 'POST /api/quests, user can create a request', type: :request do
     end
 
     it 'responds with a success message' do
-      expect(response_json['message']).to eq 'reQuest successfully created!'
+      expect(response_json['message']).to eq 'Your reQuest was successfully created!'
     end
 
     it 'responds with the id of the created quest' do
@@ -24,13 +24,13 @@ RSpec.describe 'POST /api/quests, user can create a request', type: :request do
     end
 
     it 'makes the user the requester' do
-      expect(quest.requester).to eq user.id
+      expect(@quest.requester).to eq user
     end
   end
 
   describe 'with no credentials and valid params' do
     before do
-      post '/api/quests', 
+      post '/api/quests',
            params: { title: 'Quest title', description: 'You shall come and help me!' }
     end
 
@@ -39,7 +39,7 @@ RSpec.describe 'POST /api/quests, user can create a request', type: :request do
     end
 
     it 'responds with an error message' do
-      expect(response_json['message']).to eq 'You need to login first!'
+      expect(response_json['errors'][0]).to eq 'You need to sign in or sign up before continuing.'
     end
   end
 
@@ -59,7 +59,7 @@ RSpec.describe 'POST /api/quests, user can create a request', type: :request do
     end
 
     it 'responds with an error message' do
-      expect(response_json['message']).to eq 'body is not a permitted parameter'
+      expect(response_json['message']).to eq 'found unpermitted parameter: :body'
     end
   end
 

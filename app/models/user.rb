@@ -6,5 +6,5 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  has_many :quests, as: :requester
+  has_many :requests, foreign_key: 'requester_id', class_name: 'Quest'
 end

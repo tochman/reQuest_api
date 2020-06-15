@@ -1,6 +1,6 @@
 RSpec.describe User, type: :model do
   describe 'relations' do
-    it { is_expected.to have_many :quests }
+    it { is_expected.to have_many :requests }
   end
 
   describe 'factory' do
