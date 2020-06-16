@@ -1,9 +1,11 @@
 RSpec.describe 'POST /offers, user can offer to help' do
-  let(:requester) { create(:user) }
+  let(:requester) { create(:user, email: 'requester@mail.com') }
+  let(:req_creds) { requester.create_new_auth_token }
+  let(:req_headers) { { HTTP_ACCEPT: 'application/json' }.merge!(req_creds) }
   let(:helper) { create(:user) }
   let(:credentials) { helper.create_new_auth_token }
   let(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
-  let(:request) { create(:request, requester: requester)}
+  let(:request) { create(:request, requester: requester) }
 
   describe 'with authentication and correct params' do
     before do
@@ -34,20 +36,65 @@ RSpec.describe 'POST /offers, user can offer to help' do
       end
 
       it 'the message' do
-        expect(@offer.message).to eq "Hi, I can help!"
+        expect(@offer.message).to eq 'Hi, I can help!'
       end
     end
   end
 
-  describe 'user has already offered to help' do
+  describe 'requester tries to offer to help himself' do
+    before do
+      post '/api/offers',
+           headers: req_headers,
+           params: { request_id: request.id, message: "Hi, I can help!" }
+    end
 
+    it 'gives an error status' do
+      expect(response).to have_http_status 401
+    end
+
+    it 'gives an error message' do
+      expect(response['message']).to eq 'You cannot make an offer on your own request!'
+    end
+  end
+
+  describe 'user has already offered to help' do
+    before do
+      2.times do
+        post '/api/offers',
+             headers: headers,
+             params: { request_id: request.id, message: 'Hi, I can help!' }
+      end
+    end
+
+    it 'gives an error status' do
+      expect(response).to have_http_status 422
+    end
+
+    it 'gives an error message' do
+      expect(response['message']).to eq 'You have already made an offer on this request!'
+    end
   end
 
   describe 'without authentication but correct params' do
+    before do
+      post '/api/offers',
+           params: { request_id: request.id, message: "Hi, I can help!" }
+    end
 
+    it 'gives an error status' do
+      expect(response).to have_http_status 401
+    end
+
+    it 'gives an error message' do
+      expect(response['errors'][0]).to eq 'You need to log in'
+    end
   end
 
-  describe 'with authenticaiton and bad params' do
-
-  end
+  # describe 'with authenticaiton and bad params' do
+  #   before do
+  #     post '/api/offers',
+  #          headers: headers,
+  #          params: { request_id: request.id, message: 'Hi, I can help!' }
+  #   end
+  # end
 end
