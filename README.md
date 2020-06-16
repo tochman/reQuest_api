@@ -61,6 +61,5 @@ Read more [here](https://devise-token-auth.gitbook.io/devise-token-auth/).
 
 The get request will return true or false depending if the helper has enough karma points.
 if 200:
-{ karma_points: true }
-if 422:
-{ karma_points: false }
+{ karma_points: 100 }
+No error path!
