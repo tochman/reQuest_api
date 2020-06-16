@@ -19,7 +19,7 @@ RSpec.describe 'POST /offers, user can offer to help' do
     end
 
     it 'responds with a success message' do
-      expect(response['message']).to eq "Your offer has been sent!"  
+      expect(response_json['message']).to eq "Your offer has been sent!"  
     end
 
     describe 'it creates an offer with' do
@@ -53,7 +53,7 @@ RSpec.describe 'POST /offers, user can offer to help' do
     end
 
     it 'gives an error message' do
-      expect(response['message']).to eq 'You cannot make an offer on your own request!'
+      expect(response_json['message']).to eq 'You cannot make an offer on your own request!'
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe 'POST /offers, user can offer to help' do
     end
 
     it 'gives an error message' do
-      expect(response['message']).to eq 'You have already made an offer on this request!'
+      expect(response_json['message']).to eq 'You have already made an offer on this request!'
     end
   end
 
@@ -86,7 +86,7 @@ RSpec.describe 'POST /offers, user can offer to help' do
     end
 
     it 'gives an error message' do
-      expect(response['errors'][0]).to eq 'You need to log in'
+      expect(response_json['errors'][0]).to eq 'You need to sign in or sign up before continuing.'
     end
   end
 

@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_15_183006) do
+ActiveRecord::Schema.define(version: 2020_06_16_170538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "offers", force: :cascade do |t|
+    t.string "message"
+    t.bigint "helper_id"
+    t.bigint "request_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["helper_id"], name: "index_offers_on_helper_id"
+    t.index ["request_id"], name: "index_offers_on_request_id"
+  end
 
   create_table "requests", force: :cascade do |t|
     t.string "title", null: false
@@ -52,5 +62,6 @@ ActiveRecord::Schema.define(version: 2020_06_15_183006) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "offers", "users", column: "helper_id"
   add_foreign_key "requests", "users", column: "requester_id"
 end

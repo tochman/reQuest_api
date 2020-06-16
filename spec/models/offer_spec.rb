@@ -1,4 +1,4 @@
-RSpec.describe Request, type: :model do
+RSpec.describe Offer, type: :model do
   let(:user) { create(:user) }
 
   describe 'database table' do
