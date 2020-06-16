@@ -18,7 +18,8 @@ The format is:
       id: 1,
       title: "Title",
       description: "Lots of text",
-      requester: "requester@mail.com"
+      requester: "requester@mail.com",
+      reward: 100
     }
   ]
 }
@@ -51,6 +52,9 @@ If a non-permitted param is sent, you will get 422:
 ```
 { message: 'found unpermitted parameter: :body' }
 ```
+
+If reQuester dont have enough karma points:
+{ message: You dont have enough karma points }
 
 All devise endpoints are available at /auth.
 Read more [here](https://devise-token-auth.gitbook.io/devise-token-auth/).
