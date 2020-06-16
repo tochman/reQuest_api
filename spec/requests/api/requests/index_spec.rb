@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 RSpec.describe 'GET /request, can get all requests' do
-  let!(:request) { 7.times { create(:request) } }
+  let(:user) { create(:user) }
+  let!(:request) { 7.times { create(:request, requester: user) } }
 
   before do
     get '/api/requests'
