@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::RequestsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:create]
 
   def create
     request = current_user.requests.create(request_params)
@@ -12,6 +12,11 @@ class Api::RequestsController < ApplicationController
     end
   rescue ActionController::UnpermittedParameters => e
     render json: { message: e.message }, status: 422
+  end
+
+  def index
+    requests = Request.all
+    render json: { requests: requests.map { |req| Request::IndexSerializer.new(req) } }
   end
 
   private

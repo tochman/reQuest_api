@@ -4,6 +4,23 @@
 All endpoints are prefixed with `/api`
 
 ### /requests
+
+#### GET /requests
+The get request will return all the requests in the database.
+The format is:
+```
+{
+  requests: [
+    {
+      id: 1,
+      title: "Title",
+      description: "Lots of text",
+      requester: "requester@mail.com"
+    }
+  ]
+}
+```
+
 #### POST /requests
 To create a new request you need to include authentication headers.
 You also need to provide :title=String and :description=String, and nothing else.
