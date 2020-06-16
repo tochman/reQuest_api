@@ -36,6 +36,7 @@ RSpec.describe 'POST /api/requests', type: :request do
         post '/api/requests',
              params: { title: 'reQuest title', description: 'You shall come and help me!', reward: 100 }
       end
+      
 
       it 'has 401 response' do
         expect(response).to have_http_status 401
