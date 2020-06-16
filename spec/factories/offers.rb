@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :offer do
-    message { "MyString" }
-    helper_id { 1 }
-    request { "" }
+    message { "I want to help" }
+    association :helper, factory: :user, email: "helper@mail.com"
+    association :request
   end
 end

@@ -49,11 +49,11 @@ RSpec.describe 'POST /offers, user can offer to help' do
     end
 
     it 'gives an error status' do
-      expect(response).to have_http_status 401
+      expect(response).to have_http_status 422
     end
 
     it 'gives an error message' do
-      expect(response_json['message']).to eq 'You cannot make an offer on your own request!'
+      expect(response_json['message']).to eq 'You cannot offer help on your own request!'
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe 'POST /offers, user can offer to help' do
     end
 
     it 'gives an error message' do
-      expect(response_json['message']).to eq 'You have already made an offer on this request!'
+      expect(response_json['message']).to eq 'Helper_id is already registered with this request'
     end
   end
 
@@ -89,12 +89,4 @@ RSpec.describe 'POST /offers, user can offer to help' do
       expect(response_json['errors'][0]).to eq 'You need to sign in or sign up before continuing.'
     end
   end
-
-  # describe 'with authenticaiton and bad params' do
-  #   before do
-  #     post '/api/offers',
-  #          headers: headers,
-  #          params: { request_id: request.id, message: 'Hi, I can help!' }
-  #   end
-  # end
 end

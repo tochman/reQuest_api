@@ -8,7 +8,6 @@ class CreateOffers < ActiveRecord::Migration[6.0]
       t.belongs_to :request
 
       t.timestamps
-      t.index :offers, %i[request helper], unique: true
     end
   end
 end
