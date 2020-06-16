@@ -36,16 +36,16 @@ RSpec.describe 'POST /api/requests', type: :request do
         post '/api/requests',
              params: { title: 'reQuest title', description: 'You shall come and help me!', reward: 100 }
       end
-  
+
       it 'has 401 response' do
         expect(response).to have_http_status 401
       end
-  
+
       it 'responds with an error message' do
         expect(response_json['errors'][0]).to eq 'You need to sign in or sign up before continuing.'
       end
     end
-  
+
     describe 'with valid credentials and invalid params' do
       before do
         post '/api/requests',
@@ -56,28 +56,28 @@ RSpec.describe 'POST /api/requests', type: :request do
                body: 'Why is this here?'
              }
       end
-  
+
       it 'has 422 response' do
         expect(response).to have_http_status 422
       end
-  
+
       it 'responds with an error message' do
         expect(response_json['message']).to eq 'found unpermitted parameter: :body'
       end
     end
-  
+
     describe 'with valid credentials and missing params' do
       before do
         post '/api/requests', headers: headers, params: { title: 'reQuestus title' }
       end
-  
+
       it 'has 422 response' do
         expect(response).to have_http_status 422
       end
-  
+
       it 'responds with an error message' do
-        expect(response_json['message']).to eq "Description can't be blank"
+        expect(response_json['message']).to eq "Reward, Description can't be blank"
       end
-    end  
+    end
   end
 end

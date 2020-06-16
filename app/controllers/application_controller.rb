@@ -2,7 +2,7 @@
 
 class ApplicationController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
-  around_action :check_for_unpermitted_params
+  before_action :check_for_unpermitted_params
   rescue_from ActionController::UnpermittedParameters, with: :unpermitted_parameters
 
   private
