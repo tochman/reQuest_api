@@ -18,8 +18,11 @@ class Api::RequestsController < ApplicationController
     if errors.full_messages.one?
       error_message = errors.full_messages.first
     else
-      second_error = errors.full_messages[1].split.first
-      error_message = errors.full_messages.first.insert(0, "#{second_error}, ")
+      actual_error = []
+      errors.full_messages.each { |message| actual_error << message.split.first }
+      error = errors.full_messages.first.split(' ')[1..-1].join(' ')
+      error_message = error.insert(0, "#{actual_error.join(', ')} ")
+
     end
     render json: { message: error_message }, status: 422
   end
