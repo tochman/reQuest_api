@@ -10,14 +10,11 @@ class Api::RequestsController < ApplicationController
     else
       render json: { message: request.errors.messages.to_a.flatten.join(' ').capitalize }, status: 422
     end
-  rescue ActionController::UnpermittedParameters => e
-    render json: { message: e.message }, status: 422
   end
 
   private
 
   def request_params
-    ActionController::Parameters.action_on_unpermitted_parameters = :raise
-    params.permit(:title, :description)
+    params.permit(:title, :description, :reward)
   end
 end
