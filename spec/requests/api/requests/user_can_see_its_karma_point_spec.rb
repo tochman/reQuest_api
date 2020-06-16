@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'GET /api/karma_points/:id :show', type: :request do
+RSpec.describe 'GET /api/karma_points :show', type: :request do
   let(:request) { create(:request) }
   let(:user) { create(:user, email: 'user@email.com') }
   let(:credentials) { user.create_new_auth_token }
