@@ -9,6 +9,7 @@ class Api::MyRequest::RequestsController < ApplicationController
         request = Request.find(request_params[:id])
         request.status = 'completed'
         request.save
+        binding.pry
         render json: { message: 'Request completed!' }
       rescue StandardError => e
         render json: { message: 'Something went wrong: ' + e.message }, status: 422
