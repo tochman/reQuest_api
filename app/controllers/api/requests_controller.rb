@@ -20,7 +20,7 @@ class Api::RequestsController < ApplicationController
   end
 
   def update_karma
-    @karma_points = Api::KarmaPointsController.update_karma(request_params, current_user)
+    Api::KarmaPointsController.update_karma(request_params, current_user)
   end
 
   private
