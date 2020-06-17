@@ -20,6 +20,7 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'factory_bot_rails'
   gem 'coveralls', require: false
+  gem 'faker'
 end
 
 group :development do
