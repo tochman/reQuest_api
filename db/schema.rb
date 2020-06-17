@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2020_06_16_170538) do
     t.bigint "requester_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "reward"
     t.index ["requester_id"], name: "index_requests_on_requester_id"
   end
 
@@ -57,6 +58,7 @@ ActiveRecord::Schema.define(version: 2020_06_16_170538) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
+    t.integer "karma_points", default: 100
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

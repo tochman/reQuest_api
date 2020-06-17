@@ -24,7 +24,7 @@ RSpec.describe 'POST /offers, user can offer to help' do
 
     describe 'it creates an offer with' do
       before do
-        @offer = Offer.last  
+        @offer = Offer.last
       end
 
       it 'the sending user as helper' do
