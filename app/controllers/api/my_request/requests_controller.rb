@@ -7,8 +7,12 @@ class Api::MyRequest::RequestsController < ApplicationController
     if request_params[:activity] = 'complete'
       begin
         request = Request.find(request_params[:id])
-        request.status = 'completed'
-        request.save
+        if current_user.id == request.requester_id
+          request.status = 'completed'
+          request.save
+        else
+          raise StandardError, 'Request not reachable'
+        end
         render json: { message: 'Request completed!' }
       rescue StandardError => e
         render json: { message: 'Something went wrong: ' + e.message }, status: 422
