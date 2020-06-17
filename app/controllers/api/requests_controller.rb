@@ -5,9 +5,10 @@ class Api::RequestsController < ApplicationController
   before_action :karma?, only: [:create]
 
   def create
+    karma_left = update_karma
     request = current_user.requests.create(request_params)
     if request.persisted?
-      render json: { message: 'Your reQuest was successfully created!', id: request.id }
+      render json: { message: 'Your reQuest was successfully created!', id: request.id, karma_points: karma_left }
     else
       render_error_message(request.errors)
     end
@@ -16,6 +17,10 @@ class Api::RequestsController < ApplicationController
   def index
     requests = Request.all
     render json: { requests: requests.map { |req| Request::IndexSerializer.new(req) } }
+  end
+
+  def update_karma
+    @karma_points = Api::KarmaPointsController.update_karma(request_params, current_user)
   end
 
   private

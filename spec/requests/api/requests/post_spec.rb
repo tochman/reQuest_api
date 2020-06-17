@@ -25,6 +25,10 @@ RSpec.describe 'POST /api/requests', type: :request do
       expect(response_json['id']).to eq @quest.id
     end
 
+    it 'responds with the karma point left' do
+      expect(response_json['karma_points']).to eq 0
+    end
+
     it 'makes the user the requester' do
       expect(@quest.requester).to eq user
     end

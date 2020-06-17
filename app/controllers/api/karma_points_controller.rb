@@ -6,4 +6,8 @@ class Api::KarmaPointsController < ApplicationController
   def index
     render json: { karma_points: current_user.karma_points }
   end
+
+  def self.update_karma(request, user)
+    user.karma_points -= request[:reward].to_i
+  end
 end
