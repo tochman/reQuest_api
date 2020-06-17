@@ -5,7 +5,10 @@ RSpec.describe 'GET /request, can get all requests' do
   let(:credentials) { user.create_new_auth_token }
   let(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
   let(:requester) { create(:user, email: 'requester@mail.com')}
-  let!(:request) { 7.times { create(:request, requester: requester) } }
+  let!(:req) { 6.times { create(:request, requester: requester) } }
+  let!(:req2) { 1.times { create(:request, requester: user) } }
+
+  let!(:offer) { create(:offer, helper: user, request: Request.first) }
 
   describe 'without authentication' do
     before do
@@ -63,8 +66,11 @@ RSpec.describe 'GET /request, can get all requests' do
     end
 
     it "offerable is false on user's own requests" do
-      binding.pry
-      expect(response_json['requests'].find {|r| r.id == @request.id }['offerable']).to eq false
+      expect(response_json['requests'].last['offerable']).to eq false
+    end
+
+    it "offerable is false when user has already offered on the request" do
+      expect(response_json['requests'].first['offerable']).to eq false
     end
   end
 end

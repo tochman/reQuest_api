@@ -9,5 +9,6 @@ class CreateOffers < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    add_index :offers, [:request_id, :helper_id], unique: true
   end
 end

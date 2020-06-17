@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2020_06_16_170538) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["helper_id"], name: "index_offers_on_helper_id"
+    t.index ["request_id", "helper_id"], name: "index_offers_on_request_id_and_helper_id", unique: true
     t.index ["request_id"], name: "index_offers_on_request_id"
   end
 
