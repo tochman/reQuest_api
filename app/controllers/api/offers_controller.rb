@@ -14,6 +14,18 @@ class Api::OffersController < ApplicationController
     render json: { message: e.message }, status: 422
   end
 
+  def update
+    offer = Offer.find(params[:id])
+    
+    if offer.update(status: params[:activity])
+      render json: ''
+    else
+
+    end
+
+
+  end 
+
   def show
     offer = current_user.offers.find(params[:id])
 
