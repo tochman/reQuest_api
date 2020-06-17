@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Api::MyRequest::Requests :update', type: :request do
-  let!(:user) { create(:user, email: 'user@email.com') }
+  let(:user) { create(:user, email: 'user@email.com') }
   let(:credentials) { user.create_new_auth_token }
   let(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
-  let!(:request) { create(:request, requester: user) }
+  let(:request) { create(:request, requester: user) }
 
   describe 'User can mark request as completed ' do
     before do
       put "/api/my_request/requests/#{request.id}", headers: headers, params: { activity: 'complete' }
+      request.reload
     end
 
     it 'has 200 response' do
