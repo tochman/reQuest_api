@@ -15,7 +15,7 @@ RSpec.describe Request::IndexSerializer, type: :serializer do
     expect(subject.first.keys).to match expected_keys
   end
 
-  it 'does not contain created_at' do
+  it 'does not contain created_at and updated_at' do
     excluded_keys = %w[created_at updated_at]
     expect(subject.first.keys).not_to match excluded_keys
   end
