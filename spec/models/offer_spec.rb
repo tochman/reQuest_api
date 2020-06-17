@@ -1,8 +1,8 @@
 RSpec.describe Offer, type: :model do
-  let(:user) { create(:user) }
-
   describe 'database table' do
     it { is_expected.to have_db_column :message }
+    it { is_expected.to have_db_column :request_id }
+    it { is_expected.to have_db_column :helper_id }
   end
 
   describe 'relations' do
