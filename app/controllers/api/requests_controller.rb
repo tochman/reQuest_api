@@ -2,17 +2,14 @@
 
 class Api::RequestsController < ApplicationController
   before_action :authenticate_user!, only: [:create]
+  before_action :karma?, only: [:create]
 
   def create
-    if check_karma(request_params[:reward])
-      request = current_user.requests.create(request_params)
-      if request.persisted?
-        render json: { message: 'Your reQuest was successfully created!', id: request.id }
-      else
-        render_error_message(request.errors)
-      end
+    request = current_user.requests.create(request_params)
+    if request.persisted?
+      render json: { message: 'Your reQuest was successfully created!', id: request.id }
     else
-      render json: { message: 'You dont have enough karma points' }, status: 422
+      render_error_message(request.errors)
     end
   end
 
@@ -23,8 +20,10 @@ class Api::RequestsController < ApplicationController
 
   private
 
-  def check_karma(reward)
-    (current_user.karma_points - reward.to_i).positive? || (current_user.karma_points - reward.to_i) == 0
+  def karma?
+    unless (current_user.karma_points - request_params[:reward].to_i).positive? || (current_user.karma_points - request_params[:reward].to_i == 0)
+      render json: { message: 'You dont have enough karma points' }, status: 422
+    end
   end
 
   def render_error_message(errors)
