@@ -8,10 +8,8 @@ class Api::RequestsController < ApplicationController
     if request.persisted?
       render json: { message: 'Your reQuest was successfully created!', id: request.id }
     else
-      render json: { message: request.errors.messages.to_a.flatten.join(' ').capitalize }, status: 422
+      render_error_message(request.errors)
     end
-  rescue ActionController::UnpermittedParameters => e
-    render json: { message: e.message }, status: 422
   end
 
   def index
@@ -21,8 +19,20 @@ class Api::RequestsController < ApplicationController
 
   private
 
+  def render_error_message(errors)
+    if errors.full_messages.one?
+      error_message = errors.full_messages.first
+    else
+      actual_error = []
+      errors.full_messages.each { |message| actual_error << message.split.first }
+      error = errors.full_messages.first.split(' ')[1..-1].join(' ')
+      error_message = error.insert(0, "#{actual_error.join(', ')} ")
+
+    end
+    render json: { message: error_message }, status: 422
+  end
+
   def request_params
-    ActionController::Parameters.action_on_unpermitted_parameters = :raise
-    params.permit(:title, :description)
+    params.permit(:title, :description, :reward)
   end
 end
