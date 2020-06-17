@@ -32,7 +32,7 @@ You also need to provide :title=String and :description=String, and nothing else
 The response will be a 200 with a message and the id of the created resource
 
 ```
-{ message: 'Your reQuest was successfully created!', id: <resource_id> }
+{ message: 'Your reQuest was successfully created!', id: <resource_id>, karma_points: <users karma_points> }
 ```
 
 If auth is missing, devise will throw the following with 401:
@@ -53,5 +53,17 @@ If a non-permitted param is sent, you will get 422:
 { message: 'found unpermitted parameter: :body' }
 ```
 
+If reQuester dont have enough karma points:
+{ message: You dont have enough karma points }
+
 All devise endpoints are available at /auth.
 Read more [here](https://devise-token-auth.gitbook.io/devise-token-auth/).
+
+### /karma_points
+
+#### GET /karma_points
+
+The get request will return the amount of karma points the user has stored.
+if 200:
+{ karma_points: 100 }
+No error path!

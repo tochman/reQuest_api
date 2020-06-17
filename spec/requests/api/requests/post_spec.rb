@@ -25,6 +25,10 @@ RSpec.describe 'POST /api/requests', type: :request do
       expect(response_json['id']).to eq @quest.id
     end
 
+    it 'responds with the karma point left' do
+      expect(response_json['karma_points']).to eq 0
+    end
+
     it 'makes the user the requester' do
       expect(@quest.requester).to eq user
     end
@@ -46,27 +50,7 @@ RSpec.describe 'POST /api/requests', type: :request do
       end
     end
 
-    describe 'with valid credentials and invalid params' do
-      before do
-        post '/api/requests',
-             headers: headers,
-             params: {
-               title: 'reQuestus title',
-               description: 'You shall come and help me!',
-               body: 'Why is this here?'
-             }
-      end
-
-      it 'has 422 response' do
-        expect(response).to have_http_status 422
-      end
-
-      it 'responds with an error message' do
-        expect(response_json['message']).to eq 'found unpermitted parameter: :body'
-      end
-    end
-
-    describe 'with valid credentials and missing params' do
+    describe 'with valid credentials and sevral missing params' do
       before do
         post '/api/requests', headers: headers, params: { title: 'reQuestus title' }
       end
@@ -77,6 +61,43 @@ RSpec.describe 'POST /api/requests', type: :request do
 
       it 'responds with an error message' do
         expect(response_json['message']).to eq "Description, Reward can't be blank"
+      end
+    end
+
+    describe 'with valid credentials and sevral missing params' do
+      before do
+        post '/api/requests',
+             headers: headers,
+             params: {
+               title: 'reQuestus title',
+               description: 'You shall come and help me!'
+             }
+      end
+      it 'has 422 response' do
+        expect(response).to have_http_status 422
+      end
+
+      it 'responds with an error message' do
+        expect(response_json['message']).to eq "Reward can't be blank"
+      end
+    end
+
+    describe 'user dont have enough karma_points' do
+      before do
+        post '/api/requests',
+             headers: headers,
+             params: {
+               title: 'reQuestus title',
+               description: 'You shall come and help me!',
+               reward: 200
+             }
+      end
+      it 'has 422 response' do
+        expect(response).to have_http_status 422
+      end
+
+      it 'responds with an error message' do
+        expect(response_json['message']).to eq 'You dont have enough karma points'
       end
     end
   end

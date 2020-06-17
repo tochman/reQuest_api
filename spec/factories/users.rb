@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :user do
-    email { "MyString@mail.com" }
-    password { "MyString123" }
+    email { 'MyString@mail.com' }
+    password { 'MyString123' }
+    karma_points { 100 }
   end
 end
