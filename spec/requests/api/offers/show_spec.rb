@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'GET /api/offers/:id', type: :request do
   let(:requester) { create(:user) }
   let(:request) { create(:request, requester_id: requester.id) }
