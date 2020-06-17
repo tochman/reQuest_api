@@ -8,7 +8,7 @@ class Api::OffersController < ApplicationController
     if offer.persisted?
       render json: { message: 'Your offer has been sent!' }
     else
-      render json: { message: offer.errors.messages.to_a.flatten.join(' ').capitalize }, status: 422
+      render json: { message: offer.errors.full_messages.join(". ") }, status: 422
     end
   rescue StandardError => e
     render json: { message: e.message }, status: 422

@@ -70,7 +70,7 @@ RSpec.describe 'POST /offers, user can offer to help' do
     end
 
     it 'gives an error message' do
-      expect(response_json['message']).to eq 'Helper_id is already registered with this request'
+      expect(response_json['message']).to eq 'Helper is already registered with this request'
     end
   end
 
