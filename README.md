@@ -32,7 +32,7 @@ You also need to provide :title=String and :description=String, and nothing else
 The response will be a 200 with a message and the id of the created resource
 
 ```
-{ message: 'Your reQuest was successfully created!', id: <resource_id> }
+{ message: 'Your reQuest was successfully created!', id: <resource_id>, karma_points: <users karma_points> }
 ```
 
 If auth is missing, devise will throw the following with 401:
