@@ -9,6 +9,7 @@ All endpoints are prefixed with `/api`
 #### GET /requests
 
 The get request will return all the requests in the database.
+Offerable is null if auth headers are not included, and false if the request already has an offer by the user. True otherwise.
 The format is:
 
 ```
@@ -20,6 +21,7 @@ The format is:
       description: "Lots of text",
       requester: "requester@mail.com",
       reward: 100
+      offerable: true
     }
   ]
 }
