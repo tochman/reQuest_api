@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::RequestsController < ApplicationController
-  before_action :authenticate_user!, only: [:create]
+  before_action :authenticate_user!, only: %i[create update]
   before_action :karma?, only: [:create]
 
   def create
@@ -24,12 +24,16 @@ class Api::RequestsController < ApplicationController
   end
 
   def update
-    if params[:activity] = "complete"
-        begin
-            request = Request.find(params[:id])
-            request.status = "completed"
-            request.save
-            render json: {message: "Request completed!"}
+    if params[:activity] = 'complete'
+      begin
+        request = Request.find(params[:id])
+        request.status = 'completed'
+        request.save
+        render json: { message: 'Request completed!' }
+      rescue StandardError => e
+        render json: { message: 'Something went wrong: ' + e.message }, status: 422
+      end
+    end
   end
 
   private
