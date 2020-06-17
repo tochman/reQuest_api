@@ -15,8 +15,8 @@ class Api::RequestsController < ApplicationController
   end
 
   def index
-    requests = Request.all
-    render json: { requests: requests.map { |req| Request::IndexSerializer.new(req) } }
+    requests = Request.all.order('id DESC')
+    render json: requests, each_serializer: Request::IndexSerializer
   end
 
   def update_karma

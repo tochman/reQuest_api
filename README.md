@@ -9,6 +9,7 @@ All endpoints are prefixed with `/api`
 #### GET /requests
 
 The get request will return all the requests in the database.
+Offerable is null if auth headers are not included, and false if the request already has an offer by the user. True otherwise.
 The format is:
 
 ```
@@ -20,6 +21,7 @@ The format is:
       description: "Lots of text",
       requester: "requester@mail.com",
       reward: 100
+      offerable: true
     }
   ]
 }
@@ -67,3 +69,24 @@ The get request will return the amount of karma points the user has stored.
 if 200:
 { karma_points: 100 }
 No error path!
+
+### /offers
+
+#### POST /offers
+
+Auth headers are required. Param :request_id as integer required. Param :message as string optional.
+If ok, response is 200:
+
+```
+{ message: 'Your offer has been sent!' }
+```
+Some other errors can happen as well, unauthorized 401 if headers are missing:
+```
+{"errors"=>["You need to sign in or sign up before continuing."]}
+```
+Or 422 if you try a forbidden action or have bad params:
+```
+{ message: 'You cannot offer help on your own request!' }
+{ message: 'Helper_id is already registered with this request' }
+{ message: "Couldn't find Request with 'id'=blob" }
+```
