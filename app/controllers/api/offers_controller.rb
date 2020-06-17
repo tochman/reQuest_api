@@ -8,7 +8,7 @@ class Api::OffersController < ApplicationController
     if offer.persisted?
       render json: { message: 'Your offer has been sent!' }
     else
-      render json: { message: offer.errors.full_messages.join(". ") }, status: 422
+      render json: { message: offer.errors.full_messages.join('. ') }, status: 422
     end
   rescue StandardError => e
     render json: { message: e.message }, status: 422
@@ -16,15 +16,14 @@ class Api::OffersController < ApplicationController
 
   def update
     offer = Offer.find(params[:id])
-    
     if offer.update(status: params[:activity])
-      render json: ''
+      offer.request.helper_id = offer.helper_id
+      render json: { offer: offer.id, message: 'offer is accepted' }
     else
-
+      binding.pry
+      render json: { message: offer.errors.full_messages.join('. ') }, status: 422
     end
-
-
-  end 
+  end
 
   def show
     offer = current_user.offers.find(params[:id])
@@ -38,10 +37,10 @@ class Api::OffersController < ApplicationController
       when 'declined'
         message = 'Your offer has been declined'
       end
-      
-      render json: {offer: offer, status_message: message} 
+
+      render json: { offer: offer, status_message: message }
     else
-      render json: {error_message: 'Offer cannot be found'}
+      render json: { error_message: 'Offer cannot be found' }
     end
   end
 

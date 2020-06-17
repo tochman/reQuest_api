@@ -19,7 +19,6 @@ class Api::RequestsController < ApplicationController
     render json: requests, each_serializer: Request::IndexSerializer
   end
 
-
   private
 
   def update_karma

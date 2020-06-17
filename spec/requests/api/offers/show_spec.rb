@@ -8,8 +8,6 @@ RSpec.describe 'GET /api/offers/:id', type: :request do
   let(:helper_credentials) { helper.create_new_auth_token }
   let(:helper_headers) { { HTTP_ACCEPT: 'application/json' }.merge!(helper_credentials) }
 
-  
-
   describe 'with valid params and headers for pending request' do
     let(:offer) { 
       create(:offer, message: 'I can help you', helper_id: helper.id, request_id: request.id) 
@@ -24,7 +22,7 @@ RSpec.describe 'GET /api/offers/:id', type: :request do
     end
 
     it 'responds offer message' do
-      expect(response_json['offer']['message']).to eq 'I can help you'
+      expect(response_json['offer']['message']).to eq 'accept offer'
     end
 
     it 'responds offer status' do
