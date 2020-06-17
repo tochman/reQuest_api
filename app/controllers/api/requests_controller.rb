@@ -28,7 +28,7 @@ class Api::RequestsController < ApplicationController
 
   def render_error_message(errors)
     if errors.full_messages.one?
-      error_message = errors.full_messages.first
+      error_message = errors.full_messages.to_sentence
     else
       actual_error = []
       errors.full_messages.each { |message| actual_error << message.split.first }

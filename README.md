@@ -63,7 +63,7 @@ Read more [here](https://devise-token-auth.gitbook.io/devise-token-auth/).
 
 #### GET /karma_points
 
-The get request will return true or false depending if the helper has enough karma points.
+The get request will return the amount of karma points the user has stored.
 if 200:
 { karma_points: 100 }
 No error path!
