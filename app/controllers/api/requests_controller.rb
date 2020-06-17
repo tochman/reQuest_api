@@ -5,9 +5,9 @@ class Api::RequestsController < ApplicationController
   before_action :karma?, only: [:create]
 
   def create
-    karma_left = update_karma
     request = current_user.requests.create(request_params)
     if request.persisted?
+      karma_left = update_karma
       render json: { message: 'Your reQuest was successfully created!', id: request.id, karma_points: karma_left }
     else
       render_error_message(request.errors)
