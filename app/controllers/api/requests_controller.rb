@@ -23,7 +23,14 @@ class Api::RequestsController < ApplicationController
     Api::KarmaPointsController.update_karma(request_params, current_user)
   end
 
-  def update; end
+  def update
+    if params[:activity] = "complete"
+        begin
+            request = Request.find(params[:id])
+            request.status = "completed"
+            request.save
+            render json: {message: "Request completed!"}
+  end
 
   private
 
