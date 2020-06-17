@@ -23,6 +23,8 @@ class Api::RequestsController < ApplicationController
     Api::KarmaPointsController.update_karma(request_params, current_user)
   end
 
+  def update; end
+
   private
 
   def karma?
