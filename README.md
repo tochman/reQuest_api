@@ -115,7 +115,23 @@ if other activity response status 500 with message:
 Auth headers are required. Offer :id in endpoint.
 
 ```
-{ offer: offer.id, message: 'Your offer is pending' }
-{ offer: offer.id, message: 'Your offer has been accepted' }
-{ offer: offer.id, message: 'Your offer has been declined' }
+{
+  offer:  id: 4,
+  message: "here is the message",
+  helper_id: 2,
+  request_id: 3,
+  status: "accepted",
+  message: 'Your offer has been accepted'
+ }
+{
+  offer: id: 4,
+  message: "here is the message",
+  helper_id: 2,
+  request_id: 3,
+  status: "accepted",
+  message: 'Your offer has been declined'
+  }
+
+  { offer: <offer items>,
+  message: 'Your offer is pending' }
 ```
