@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 RSpec.describe Offer, type: :model do
   describe 'database table' do
     it { is_expected.to have_db_column :message }
     it { is_expected.to have_db_column :request_id }
     it { is_expected.to have_db_column :helper_id }
+    it { is_expected.to have_db_column :status }
   end
 
   describe 'relations' do

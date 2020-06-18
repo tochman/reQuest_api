@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2020_06_18_180607) do
     t.bigint "request_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "status", default: 0
     t.index ["helper_id"], name: "index_offers_on_helper_id"
     t.index ["request_id", "helper_id"], name: "index_offers_on_request_id_and_helper_id", unique: true
     t.index ["request_id"], name: "index_offers_on_request_id"
@@ -35,6 +36,8 @@ ActiveRecord::Schema.define(version: 2020_06_18_180607) do
     t.integer "reward"
     t.integer "status", default: 0
     t.integer "category", default: 0
+    t.bigint "helper_id"
+    t.index ["helper_id"], name: "index_requests_on_helper_id"
     t.index ["requester_id"], name: "index_requests_on_requester_id"
   end
 
@@ -68,5 +71,6 @@ ActiveRecord::Schema.define(version: 2020_06_18_180607) do
   end
 
   add_foreign_key "offers", "users", column: "helper_id"
+  add_foreign_key "requests", "users", column: "helper_id"
   add_foreign_key "requests", "users", column: "requester_id"
 end
