@@ -18,26 +18,23 @@ class Api::OffersController < ApplicationController
     offer = Offer.find(params[:id])
     if offer.update(status: params[:activity])
       offer.request.helper_id = offer.helper_id
-      render json: { offer: offer.id, message: 'offer is accepted' }
+      render json: { offer: offer.id, message: "offer is #{offer.status}" }
     else
-      binding.pry
       render json: { message: offer.errors.full_messages.join('. ') }, status: 422
     end
   end
 
   def show
     offer = current_user.offers.find(params[:id])
-
     if offer
       case offer.status
       when 'pending'
         message = 'Your offer is pending'
-      when 'approved'
+      when 'accepted'
         message = 'Your offer has been accepted'
       when 'declined'
         message = 'Your offer has been declined'
       end
-
       render json: { offer: offer, status_message: message }
     else
       render json: { error_message: 'Offer cannot be found' }
