@@ -6,5 +6,8 @@ Rails.application.routes.draw do
     resources :offers, only: %i[create show update]
     resources :karma_points, only: [:index], constraints: { format: 'json' }
     resources :requests, only: %i[create index], constraints: { format: 'json' }
+    namespace :my_request do
+      resources :requests, only: [:update], constraints: { format: 'json' }
+    end
   end
 end
