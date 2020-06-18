@@ -8,8 +8,7 @@ class Request < ApplicationRecord
   validate :validate_pending_status, on: :update
 
   def is_requested_by?(user)
-    #binding.pry
-    raise StandardError.new "Request not reachable" and return false unless requester == user
+    raise(StandardError, 'Request not reachable') && (return false) unless requester == user
     true
   end
 
