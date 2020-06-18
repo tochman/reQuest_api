@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::RequestsController < ApplicationController
-  before_action :authenticate_user!, only: %i[create update]
+  before_action :authenticate_user!, only: %i[create]
   before_action :karma?, only: [:create]
 
   def create
