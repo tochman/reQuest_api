@@ -12,7 +12,9 @@ RSpec.describe 'Api::MyRequest::Requests :update', type: :request do
 
   describe 'User can mark request as completed ' do
     before do
-      put "/api/my_request/requests/#{request.id}", headers: headers, params: { activity: 'complete' }
+      put "/api/my_request/requests/#{request.id}",
+          headers: headers,
+          params: { activity: 'completed' }
       request.reload
     end
 
@@ -21,17 +23,20 @@ RSpec.describe 'Api::MyRequest::Requests :update', type: :request do
     end
 
     it 'changes the status of the request' do
-      expect(request.status).to eq 'completed'
+      expect(request.completed?).to be_truthy
     end
 
     it 'responds with the completed confirmation' do
-      expect(response_json['message']).to eq 'Request completed!'
+      expect(response_json['message'])
+      .to eq 'Request completed!'
     end
   end
 
   describe "User can't mark another user's request as completed" do
     before do
-      put "/api/my_request/requests/#{request.id}", headers: user2_headers, params: { activity: 'complete' }
+      put "/api/my_request/requests/#{request.id}",
+          headers: user2_headers,
+          params: { activity: 'completed' }
       request.reload
     end
 
@@ -39,18 +44,21 @@ RSpec.describe 'Api::MyRequest::Requests :update', type: :request do
       expect(response).to have_http_status 422
     end
 
-    it 'cant change the status of the request' do
-      expect(request.status).to eq 'active'
+    it "can't change the status of the request" do
+      expect(request.active?).to be_truthy
     end
 
     it 'responds with the completed confirmation' do
-      expect(response_json['message']).to eq 'Something went wrong: Request not reachable'
+      expect(response_json['message'])
+      .to eq 'Something went wrong: Request not reachable '
     end
   end
 
   describe "User can't mark pending request completed" do
     before do
-      put "/api/my_request/requests/#{request_2.id}", headers: headers, params: { activity: 'complete' }
+      put "/api/my_request/requests/#{request_2.id}",
+          headers: headers,
+          params: { activity: 'completed' }
       request_2.reload
     end
 
@@ -59,11 +67,12 @@ RSpec.describe 'Api::MyRequest::Requests :update', type: :request do
     end
 
     it 'cant change the status of the request' do
-      expect(request_2.status).to eq 'pending'
+      expect(request_2.pending?).to be_truthy
     end
 
     it 'responds with the completed confirmation' do
-      expect(response_json['message']).to eq "Something went wrong: Can't complete a pending request"
+      expect(response_json['message'])
+        .to eq 'Something went wrong: Status cannot be set to completed when it is pending '
     end
   end
 end
