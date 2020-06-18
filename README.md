@@ -26,8 +26,8 @@ The format is:
   ]
 }
 ```
-
-#### POST /requests
+### my_request/
+#### POST my_request/requests
 
 To create a new request you need to include authentication headers.
 You also need to provide :title=String and :description=String, and nothing else.
