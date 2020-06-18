@@ -40,14 +40,6 @@ RSpec.describe 'GET /request, can get all requests' do
         it ':requester' do
           expect(response_json['requests'][0]).to have_key 'requester'
         end
-
-        it ':offerable' do
-          expect(response_json['requests'][0]).to have_key 'offerable'
-        end
-
-        it ':category' do
-          expect(response_json['requests'][0]).to have_key 'category'
-        end
       end
   
       describe 'does not have keys' do
@@ -67,6 +59,10 @@ RSpec.describe 'GET /request, can get all requests' do
 
       get '/api/requests',
           headers: headers
+    end
+
+    it 'includes the offerable key' do
+      expect(response_json['requests'][0]).to have_key 'offerable'
     end
 
     it "offerable is false on user's own requests" do

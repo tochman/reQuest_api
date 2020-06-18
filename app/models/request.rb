@@ -5,6 +5,7 @@ class Request < ApplicationRecord
   belongs_to :requester, class_name: 'User'
   has_many :offers
   enum status: { pending: 0, active: 1, started: 2, completed: 3 }
+  enum category: { other: 0, education: 1, home: 2, it: 3, sport: 4, vehicles: 5 }
   validate :validate_pending_status, on: :update
 
   def is_requested_by?(user)

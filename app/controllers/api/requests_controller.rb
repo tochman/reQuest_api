@@ -3,6 +3,7 @@
 class Api::RequestsController < ApplicationController
   before_action :authenticate_user!, only: %i[create]
   before_action :karma?, only: [:create]
+  rescue_from ArgumentError, with: :render_error_message
 
   def create
     request = current_user.requests.create(request_params)
@@ -32,19 +33,21 @@ class Api::RequestsController < ApplicationController
   end
 
   def render_error_message(errors)
-    if errors.full_messages.one?
+    if !errors.class.method_defined?(:full_messages)
+      error_message = errors.message
+    elsif errors.full_messages.one?
       error_message = errors.full_messages.to_sentence
     else
       actual_error = []
       errors.full_messages.each { |message| actual_error << message.split.first }
       error = errors.full_messages.first.split(' ')[1..-1].join(' ')
       error_message = error.insert(0, "#{actual_error.join(', ')} ")
-
     end
+
     render json: { message: error_message }, status: 422
   end
 
   def request_params
-    params.permit(:title, :description, :reward)
+    params.permit(:title, :description, :reward, :category)
   end
 end

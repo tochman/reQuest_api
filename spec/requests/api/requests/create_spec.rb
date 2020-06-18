@@ -34,7 +34,7 @@ RSpec.describe 'POST /api/requests', type: :request do
     end
 
     it 'has the default category' do
-      expect(@quest.category).to eq 'Other'
+      expect(@quest.category).to eq 'other'
     end
   end
 
@@ -46,13 +46,13 @@ RSpec.describe 'POST /api/requests', type: :request do
              title: 'reQuest title',
              description: 'You shall come and help me!',
              reward: 100,
-             category: 'Home'
+             category: 'home'
            }
       @quest = Request.last
     end
 
     it 'and the request gets that category' do
-      expect(@quest[:category]).to eq 'Home'
+      expect(@quest[:category]).to eq 'home'
     end
   end
 
@@ -60,7 +60,12 @@ RSpec.describe 'POST /api/requests', type: :request do
     before do
       post '/api/requests',
            headers: headers,
-           params: { title: 'reQuest title', description: 'You shall come and help me!', reward: 100, category: 'Car' }
+           params: {
+             title: 'reQuest title',
+             description: 'You shall come and help me!',
+             reward: 100,
+             category: 'car'
+           }
       @quest = Request.last
     end
     
@@ -69,7 +74,7 @@ RSpec.describe 'POST /api/requests', type: :request do
     end
 
     it 'gives an error message' do
-      expect(response_json['message']).to eq 'Car is not a valid category'
+      expect(response_json['message']).to eq "'car' is not a valid category"
     end
   end
 
