@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_15_183006) do
+ActiveRecord::Schema.define(version: 2020_06_16_170538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "offers", force: :cascade do |t|
+    t.string "message"
+    t.bigint "helper_id"
+    t.bigint "request_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["helper_id"], name: "index_offers_on_helper_id"
+    t.index ["request_id", "helper_id"], name: "index_offers_on_request_id_and_helper_id", unique: true
+    t.index ["request_id"], name: "index_offers_on_request_id"
+  end
 
   create_table "requests", force: :cascade do |t|
     t.string "title", null: false
@@ -21,6 +32,7 @@ ActiveRecord::Schema.define(version: 2020_06_15_183006) do
     t.bigint "requester_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "reward"
     t.index ["requester_id"], name: "index_requests_on_requester_id"
   end
 
@@ -46,11 +58,13 @@ ActiveRecord::Schema.define(version: 2020_06_15_183006) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
+    t.integer "karma_points", default: 100
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "offers", "users", column: "helper_id"
   add_foreign_key "requests", "users", column: "requester_id"
 end

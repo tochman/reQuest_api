@@ -7,4 +7,5 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :requests, foreign_key: 'requester_id', class_name: 'Request'
+  has_many :offers, foreign_key: 'helper_id', class_name: 'Offer'
 end
