@@ -32,6 +32,45 @@ RSpec.describe 'POST /api/requests', type: :request do
     it 'makes the user the requester' do
       expect(@quest.requester).to eq user
     end
+
+    it 'has the default category' do
+      expect(@quest.category).to eq 'Other'
+    end
+  end
+
+  describe 'user can set a valid category' do
+    before do
+      post '/api/requests',
+           headers: headers,
+           params: {
+             title: 'reQuest title',
+             description: 'You shall come and help me!',
+             reward: 100,
+             category: 'Home'
+           }
+      @quest = Request.last
+    end
+
+    it 'and the request gets that category' do
+      expect(@quest[:category]).to eq 'Home'
+    end
+  end
+
+  describe 'user cannot set an invalid category' do
+    before do
+      post '/api/requests',
+           headers: headers,
+           params: { title: 'reQuest title', description: 'You shall come and help me!', reward: 100, category: 'Car' }
+      @quest = Request.last
+    end
+    
+    it 'gives an error code' do
+      expect(response).to have_http_status 422
+    end
+
+    it 'gives an error message' do
+      expect(response_json['message']).to eq 'Car is not a valid category'
+    end
   end
 
   describe 'unsuccessfully' do
