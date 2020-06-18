@@ -80,13 +80,42 @@ If ok, response is 200:
 ```
 { message: 'Your offer has been sent!' }
 ```
+
 Some other errors can happen as well, unauthorized 401 if headers are missing:
+
 ```
 {"errors"=>["You need to sign in or sign up before continuing."]}
 ```
+
 Or 422 if you try a forbidden action or have bad params:
+
 ```
 { message: 'You cannot offer help on your own request!' }
 { message: 'Helper_id is already registered with this request' }
 { message: "Couldn't find Request with 'id'=blob" }
+```
+
+#### PUT /offers
+
+Auth headers are required. Param :activity that can be declined or accepted as string.
+
+```
+{ offer: offer.id, message: 'offer is accepted' }
+{ offer: offer.id, message: 'offer is declined' }
+```
+
+if other activity response status 500 with message:
+
+```
+{ error_message: 'The activty is not valid' }
+```
+
+#### GET /offers/:id
+
+Auth headers are required. Offer :id in endpoint.
+
+```
+{ offer: offer.id, message: 'Your offer is pending' }
+{ offer: offer.id, message: 'Your offer has been accepted' }
+{ offer: offer.id, message: 'Your offer has been declined' }
 ```
