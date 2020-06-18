@@ -30,8 +30,10 @@ The format is:
 #### POST my_request/requests
 
 To create a new request you need to include authentication headers.
-You also need to provide :title=String and :description=String, and nothing else.
-The response will be a 200 with a message and the id of the created resource
+You also need to provide :title=String and :description=String, and may provide category.
+Valid categories are "other", "education", "home", "it", "sport", "vehicles". Other is default if none is provided.
+The response will be a 200 with a message and the id of the created resource.
+
 
 ```
 { message: 'Your reQuest was successfully created!', id: <resource_id>, karma_points: <users karma_points> }
@@ -47,6 +49,12 @@ If a param, e.g. description is missing, you will get 422:
 
 ```
 { message: 'Description can't be blank' }
+```
+
+If a non-valid category is supplied you will get 422:
+
+```
+{ message: "'non-valid-category' is not a valid category" }
 ```
 
 If a non-permitted param is sent, you will get 422:
