@@ -9,20 +9,20 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
   let(:helper) { create(:user) }
   let(:offer) { create(:offer, status: 'pending', request_id: request.id, helper_id: helper.id) }
 
-  describe 'requester successfully' do 
+  describe 'requester successfully' do
     describe 'accepts offer' do
       before do
         put "/api/offers/#{offer.id}",
             headers: requester_headers,
             params: { activity: 'accepted' }
       end
-  
+
       it 'has 200 response' do
         expect(response).to have_http_status 200
       end
-  
+
       it 'responds offer message' do
-        expect(response_json['message']).to eq 'offer is accepted'
+        expect(response_json['message']).to eq "You accepted help from #{helper.email}"
       end
     end
 
@@ -32,17 +32,17 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
             headers: requester_headers,
             params: { activity: 'declined' }
       end
-  
+
       it 'responds offer message' do
-        expect(response_json['message']).to eq 'offer is declined'
+        expect(response_json['message']).to eq "You declined help from #{helper.email}"
       end
     end
   end
 
-  describe 'unsuccessfully when' do 
+  describe 'unsuccessfully when' do
     describe 'offer cant be found' do
       before do
-        put "/api/offers/1000",
+        put '/api/offers/1000',
             headers: requester_headers,
             params: { activity: 'declined' }
       end
@@ -50,7 +50,7 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
       it 'has 500 response' do
         expect(response).to have_http_status 500
       end
-  
+
       it 'responds error message' do
         expect(response_json['error_message']).to eq "Couldn't find Offer with 'id'=1000"
       end
@@ -65,9 +65,9 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
       it 'has 422 response' do
         expect(response).to have_http_status 500
       end
-  
+
       it 'responds error message' do
-        expect(response_json['error_message']).to eq "The activty is not valid"
+        expect(response_json['error_message']).to eq 'The activty is not valid'
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
       it 'has 401 response' do
         expect(response).to have_http_status 401
       end
-  
+
       it 'responds error message' do
         expect(response_json['errors'].first).to eq 'You need to sign in or sign up before continuing.'
       end
@@ -90,15 +90,14 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
         put "/api/offers/#{offer.id}",
             headers: requester_headers,
             params: { activity: 'invalid status' }
-
       end
 
       it 'has 500 response' do
         expect(response).to have_http_status 500
       end
-  
+
       it 'responds error message' do
-        expect(response_json['error_message']).to eq "The activty is not valid"
+        expect(response_json['error_message']).to eq 'The activty is not valid'
       end
     end
   end

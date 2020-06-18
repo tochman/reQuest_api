@@ -23,10 +23,11 @@ class Api::OffersController < ApplicationController
     when 'accepted'
       offer.update(status: params[:activity])
       request.update(helper: offer.helper)
-      render json: { offer: offer.id, message: "offer is #{offer.status}" }
+      request.update(status: 'active')
+      render json: { offer: offer.id, message: "You #{offer.status} help from #{offer.helper.uid}" }
     when 'declined'
       offer.update(status: params[:activity])
-      render json: { offer: offer.id, message: "offer is #{offer.status}" }
+      render json: { offer: offer.id, message: "You #{offer.status} help from #{offer.helper.uid}" }
     else
       render_offer_error('The activty is not valid')
     end
