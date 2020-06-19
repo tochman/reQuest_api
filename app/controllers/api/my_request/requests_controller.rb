@@ -6,7 +6,7 @@ class Api::MyRequest::RequestsController < ApplicationController
   rescue_from ArgumentError, with: :render_error_message
 
   def index
-    requests = Request.where(user: current_user).order('id DESC')
+    requests = Request.where(requester: current_user).order('id DESC')
     if requests == []
       render json: { message: 'There are no requests to show' }, status: 204
     else
