@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-RSpec.describe 'POST /api/requests', type: :request do
+RSpec.describe 'POST /api/my_request/requests', type: :request do
   let(:user) { create(:user) }
   let(:credentials) { user.create_new_auth_token }
   let(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
 
   describe 'with valid credentials and params' do
     before do
-      post '/api/requests',
+      post '/api/my_request/requests',
            headers: headers,
            params: { title: 'reQuest title', description: 'You shall come and help me!', reward: 100 }
       @quest = Request.last
@@ -32,12 +32,56 @@ RSpec.describe 'POST /api/requests', type: :request do
     it 'makes the user the requester' do
       expect(@quest.requester).to eq user
     end
+
+    it 'has the default category' do
+      expect(@quest.category).to eq 'other'
+    end
+  end
+
+  describe 'user can set a valid category' do
+    before do
+      post '/api/my_request/requests',
+           headers: headers,
+           params: {
+             title: 'reQuest title',
+             description: 'You shall come and help me!',
+             reward: 100,
+             category: 'home'
+           }
+      @quest = Request.last
+    end
+
+    it 'and the request gets that category' do
+      expect(@quest[:category]).to eq 'home'
+    end
+  end
+
+  describe 'user cannot set an invalid category' do
+    before do
+      post '/api/my_request/requests',
+           headers: headers,
+           params: {
+             title: 'reQuest title',
+             description: 'You shall come and help me!',
+             reward: 100,
+             category: 'car'
+           }
+      @quest = Request.last
+    end
+    
+    it 'gives an error code' do
+      expect(response).to have_http_status 422
+    end
+
+    it 'gives an error message' do
+      expect(response_json['message']).to eq "'car' is not a valid category"
+    end
   end
 
   describe 'unsuccessfully' do
     describe 'with no credentials and valid params' do
       before do
-        post '/api/requests',
+        post '/api/my_request/requests',
              params: { title: 'reQuest title', description: 'You shall come and help me!', reward: 100 }
       end
 
@@ -52,7 +96,7 @@ RSpec.describe 'POST /api/requests', type: :request do
 
     describe 'with valid credentials and sevral missing params' do
       before do
-        post '/api/requests', headers: headers, params: { title: 'reQuestus title' }
+        post '/api/my_request/requests', headers: headers, params: { title: 'reQuestus title' }
       end
 
       it 'has 422 response' do
@@ -66,7 +110,7 @@ RSpec.describe 'POST /api/requests', type: :request do
 
     describe 'with valid credentials and sevral missing params' do
       before do
-        post '/api/requests',
+        post '/api/my_request/requests',
              headers: headers,
              params: {
                title: 'reQuestus title',
@@ -84,7 +128,7 @@ RSpec.describe 'POST /api/requests', type: :request do
 
     describe 'user dont have enough karma_points' do
       before do
-        post '/api/requests',
+        post '/api/my_request/requests',
              headers: headers,
              params: {
                title: 'reQuestus title',
