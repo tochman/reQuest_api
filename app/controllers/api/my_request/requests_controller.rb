@@ -42,13 +42,8 @@ class Api::MyRequest::RequestsController < ApplicationController
   def render_error_message(errors)
     if !errors.class.method_defined?(:full_messages)
       error_message = errors.message
-    elsif errors.full_messages.one?
-      error_message = errors.full_messages.to_sentence
     else
-      actual_error = []
-      errors.full_messages.each { |message| actual_error << message.split.first }
-      error = errors.full_messages.first.split(' ')[1..-1].join(' ')
-      error_message = error.insert(0, "#{actual_error.join(', ')} ")
+      error_message = errors.full_messages.to_sentence
     end
 
     render json: { message: error_message }, status: 422

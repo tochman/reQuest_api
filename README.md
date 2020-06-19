@@ -20,20 +20,22 @@ The format is:
       title: "Title",
       description: "Lots of text",
       requester: "requester@mail.com",
+      category: "home",
       reward: 100
       offerable: true
     }
   ]
 }
 ```
+
 ### my_request/
+
 #### POST my_request/requests
 
 To create a new request you need to include authentication headers.
 You also need to provide :title=String and :description=String, and may provide category.
 Valid categories are "other", "education", "home", "it", "sport", "vehicles". Other is default if none is provided.
 The response will be a 200 with a message and the id of the created resource.
-
 
 ```
 { message: 'Your reQuest was successfully created!', id: <resource_id>, karma_points: <users karma_points> }
@@ -45,10 +47,10 @@ If auth is missing, devise will throw the following with 401:
 {"errors"=>["You need to sign in or sign up before continuing."]}
 ```
 
-If a param, e.g. description is missing, you will get 422:
+If a param, e.g. description and reward is missing, you will get 422:
 
 ```
-{ message: 'Description can't be blank' }
+{ message: 'Description can't be blank and Reward can't be blank' }
 ```
 
 If a non-valid category is supplied you will get 422:
@@ -124,22 +126,13 @@ Auth headers are required. Offer :id in endpoint.
 
 ```
 {
-  offer:  id: 4,
-  message: "here is the message",
-  helper_id: 2,
-  request_id: 3,
-  status: "accepted",
-  message: 'Your offer has been accepted'
- }
-{
-  offer: id: 4,
-  message: "here is the message",
-  helper_id: 2,
-  request_id: 3,
-  status: "accepted",
-  message: 'Your offer has been declined'
+  offer:  {
+    id: 4,
+    message: "I want to help you",
+    helper_id: 2,
+    request_id: 3,
+    status: "pending", (OR "declined", OR "accepted",)
+    message: "Your offer is pending" (OR "Your offer has been accepted" OR "Your offer has been declined")
   }
-
-  { offer: <offer items>,
-  message: 'Your offer is pending' }
+}
 ```
