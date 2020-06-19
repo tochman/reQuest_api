@@ -5,6 +5,9 @@ class Api::MyRequest::RequestsController < ApplicationController
   before_action :karma?, only: [:create]
   rescue_from ArgumentError, with: :render_error_message
 
+  def show
+  end
+
   def create
     request = current_user.requests.create(create_params)
     if request.persisted?
