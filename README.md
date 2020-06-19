@@ -110,8 +110,7 @@ Or 422 if you try a forbidden action or have bad params:
 Auth headers are required. Param :activity that can be declined or accepted as string.
 
 ```
-{ offer: offer.id, message: 'offer is accepted' }
-{ offer: offer.id, message: 'offer is declined' }
+{ offer: offer.id, message: 'You accepted/declined help from helper@mail.com' }
 ```
 
 if other activity response status 500 with message:
