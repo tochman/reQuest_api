@@ -26,14 +26,32 @@ The format is:
   ]
 }
 ```
+
 ### my_request/
+
+#### GET my_request/requests/:id
+
+```
+{
+  "request": {
+    "id": 1597, 
+    "title": "I need help with this", 
+    "description": "This is what I need help with", 
+    "reward": 100, 
+    "offers": [
+      "person1@example.com", 
+      "person2@example.com"
+    ]
+  }
+}
+```
+
 #### POST my_request/requests
 
 To create a new request you need to include authentication headers.
 You also need to provide :title=String and :description=String, and may provide category.
 Valid categories are "other", "education", "home", "it", "sport", "vehicles". Other is default if none is provided.
 The response will be a 200 with a message and the id of the created resource.
-
 
 ```
 { message: 'Your reQuest was successfully created!', id: <resource_id>, karma_points: <users karma_points> }
@@ -42,7 +60,7 @@ The response will be a 200 with a message and the id of the created resource.
 If auth is missing, devise will throw the following with 401:
 
 ```
-{"errors"=>["You need to sign in or sign up before continuing."]}
+{"errors": ["You need to sign in or sign up before continuing."]}
 ```
 
 If a param, e.g. description is missing, you will get 422:
@@ -92,7 +110,7 @@ If ok, response is 200:
 Some other errors can happen as well, unauthorized 401 if headers are missing:
 
 ```
-{"errors"=>["You need to sign in or sign up before continuing."]}
+{"errors": ["You need to sign in or sign up before continuing."]}
 ```
 
 Or 422 if you try a forbidden action or have bad params:
