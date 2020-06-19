@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
 RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
-  let!(:requester) { create(:user, email: 'requester@mail.com')}
-  let!(:credentials) { requester.create_new_auth_token }
-  let!(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
-  let!(:myrequest) { create(:request, requester: requester) }
-  let!(:user1) { create(:user) }
-  let!(:user2) { create(:user) }
-  let!(:notmyrequest) { create(:request, requester: user1) }
+  let(:requester) { create(:user, email: 'requester@mail.com')}
+  let(:credentials) { requester.create_new_auth_token }
+  let(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
+  let(:my_request) { create(:request, requester: requester) }
+  let(:user_1) { create(:user) }
+  let(:user_2) { create(:user) }
+  let(:not_my_request) { create(:request, requester: user_1) }
 
-  let!(:offer1) { create(:offer, helper: user1, request: myrequest) }
-  let!(:offer2) { create(:offer, helper: user2, request: myrequest) }
+  let!(:offer_1) { create(:offer, helper: user_1, request: my_request) }
+  let!(:offer_2) { create(:offer, helper: user_2, request: my_request) }
 
   describe 'with valid credentials and params' do
     before do
-      get "/api/my_request/requests/#{myrequest.id}",
+      get "/api/my_request/requests/#{my_request.id}",
         headers: headers
     end
 
@@ -23,19 +23,19 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
     end
 
     it 'responds with id' do
-      expect(response_json['request']['id']).to eq myrequest.id
+      expect(response_json['request']['id']).to eq my_request.id
     end
 
     it 'responds with title' do
-      expect(response_json['request']['title']).to eq myrequest.title
+      expect(response_json['request']['title']).to eq my_request.title
     end
 
     it 'responds with description' do
-      expect(response_json['request']['description']).to eq myrequest.description
+      expect(response_json['request']['description']).to eq my_request.description
     end
 
     it 'responds with reward' do
-      expect(response_json['request']['reward']).to eq myrequest.reward
+      expect(response_json['request']['reward']).to eq my_request.reward
     end
 
     it 'responds with all offers associated with the reQuest' do
@@ -43,13 +43,13 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
     end
 
     it "responds with the offering helper's uid" do
-      expect(response_json['request']['offers'][0]).to eq user1.uid
+      expect(response_json['request']['offers'][0]).to eq user_1.uid
     end
   end
 
   describe 'without valid credentials' do
     before do
-      get "/api/my_request/requests/#{myrequest.id}"
+      get "/api/my_request/requests/#{my_request.id}"
     end
 
     it 'has 401 status' do
@@ -63,7 +63,7 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
 
   describe "targeting someone else's reQuest" do
     before do
-      get "/api/my_request/requests/#{notmyrequest.id}",
+      get "/api/my_request/requests/#{not_my_request.id}",
         headers: headers
     end
 
