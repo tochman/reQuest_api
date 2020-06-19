@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(version: 2020_06_18_180607) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "reward"
     t.integer "status", default: 0
-    t.integer "category", default: 0
     t.bigint "helper_id"
+    t.integer "category", default: 0
     t.index ["helper_id"], name: "index_requests_on_helper_id"
     t.index ["requester_id"], name: "index_requests_on_requester_id"
   end

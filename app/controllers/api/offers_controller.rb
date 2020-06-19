@@ -16,16 +16,8 @@ class Api::OffersController < ApplicationController
   end
 
   def update
-    offer = Offer.find(params[:id])
-    request = Request.find(offer.request.id)
-
-    case params[:activity]
-    when 'accepted'
-      offer.update(status: params[:activity])
-      request.update(helper: offer.helper)
-      request.update(status: 'active')
-      render json: { offer: offer.id, message: "You #{offer.status} help from #{offer.helper.uid}" }
-    when 'declined'
+    if params[:activity] === "accepted" || params[:activity] === "declined"
+      offer = Offer.find(params[:id])
       offer.update(status: params[:activity])
       render json: { offer: offer.id, message: "You #{offer.status} help from #{offer.helper.uid}" }
     else

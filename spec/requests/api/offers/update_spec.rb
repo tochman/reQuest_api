@@ -40,10 +40,19 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
         put "/api/offers/#{offer.id}",
             headers: requester_headers,
             params: { activity: 'declined' }
+        request.reload
       end
 
       it 'responds offer message' do
         expect(response_json['message']).to eq "You declined help from #{helper.email}"
+      end
+
+      it 'the status of the request is still "pending"' do
+        expect(request.status).to eq "pending"
+      end
+
+      it 'does not assign any helper to the request' do
+        expect(request.helper).to eq nil
       end
     end
   end
