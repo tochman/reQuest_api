@@ -55,6 +55,10 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
     it 'has 401 status' do
       expect(response).to have_http_status 401
     end
+
+    it 'responds with error message' do
+      expect(response_json['errors'][0]).to eq 'You need to sign in or sign up before continuing.'
+    end
   end
 
   describe "targeting someone else's reQuest" do
@@ -65,6 +69,10 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
 
     it 'has 401 status' do
       expect(response).to have_http_status 401
+    end
+    
+    it 'responds with error message' do
+      expect(response_json['message']).to eq "This is not your reQuest"
     end
   end 
 end

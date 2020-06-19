@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class Api::MyRequest::RequestsController < ApplicationController
-  before_action :authenticate_user!, only: %i[create update]
+  before_action :authenticate_user!, only: %i[show create update]
   before_action :karma?, only: [:create]
+  before_action :correct_user?, only: [:show]
   rescue_from ArgumentError, with: :render_error_message
 
   def show
-    request = Request.find(show_params[:id])
-    render json: request, serializer: MyRequest::Request::ShowSerializer
+    render json: @request, serializer: MyRequest::Request::ShowSerializer
   end
 
   def create
@@ -32,7 +32,14 @@ class Api::MyRequest::RequestsController < ApplicationController
     }, status: 422
   end
 
-  private  
+  private
+
+  def correct_user?
+    @request = Request.find(show_params[:id])
+    if User.find(@request.requester_id) != current_user
+      render json: { message: "This is not your reQuest" }, status: 401
+    end
+  end
 
   def update_karma
     Api::KarmaPointsController.update_karma(create_params, current_user)
