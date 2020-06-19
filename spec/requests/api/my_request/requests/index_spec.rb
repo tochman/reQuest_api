@@ -71,8 +71,8 @@ RSpec.describe 'GET /api/my_requests/requests, users can see their list of reque
       get '/api/my_request/requests', headers: headers_2
     end
 
-    it 'has 204 response' do
-      expect(response).to have_http_status 204
+    it 'has 404 response' do
+      expect(response).to have_http_status 404
     end
 
     it 'responds error message' do
