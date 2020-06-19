@@ -24,6 +24,11 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
       it 'responds offer message' do
         expect(response_json['message']).to eq "You accepted help from #{helper.email}"
       end
+
+      it 'sets the status of the request to "active"' do
+        request.reload
+        expect(request.status).to eq "active"
+      end
     end
 
     describe 'declines offer' do
