@@ -12,7 +12,7 @@ RSpec.describe 'GET /api/my_requests/requests, users can see their list of reque
 
   describe 'with authentication' do
     before do
-      get 'api/my_requests/requests', headers: headers
+      get '/api/my_request/requests', headers: headers
     end
 
     describe 'successfully gets the requests' do
@@ -54,7 +54,7 @@ RSpec.describe 'GET /api/my_requests/requests, users can see their list of reque
 
   describe 'without authentication' do
     before do
-      get 'api/my_requests/requests'
+      get '/api/my_request/requests'
     end
 
     it 'has 401 response' do
@@ -68,7 +68,7 @@ RSpec.describe 'GET /api/my_requests/requests, users can see their list of reque
 
   describe 'when there are no requests' do
     before do
-      get 'api/my_requests/requests', headers: headers_2
+      get '/api/my_request/requests', headers: headers_2
     end
 
     it 'has 204 response' do
