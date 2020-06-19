@@ -76,7 +76,7 @@ RSpec.describe 'GET /api/my_requests/requests, users can see their list of reque
     end
 
     it 'responds error message' do
-      expect(response_json['error_message']).to eq 'There are no requests to show'
+      expect(response_json['message']).to eq 'There are no requests to show'
     end
   end
 end

@@ -7,7 +7,11 @@ class Api::MyRequest::RequestsController < ApplicationController
 
   def index
     requests = Request.where(user: current_user).order('id DESC')
-    render json: requests, each_serializer: MyRequest::Request::IndexSerializer
+    if requests == []
+      render json: { message: 'There are no requests to show' }, status: 204
+    else
+      render json: requests, each_serializer: MyRequest::Request::IndexSerializer
+    end
  end
 
   def create
