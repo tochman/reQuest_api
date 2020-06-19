@@ -6,6 +6,8 @@ class Api::MyRequest::RequestsController < ApplicationController
   rescue_from ArgumentError, with: :render_error_message
 
   def show
+    request = Request.find(show_params[:id])
+    render json: request, serializer: MyRequest::Request::ShowSerializer
   end
 
   def create
@@ -55,6 +57,10 @@ class Api::MyRequest::RequestsController < ApplicationController
     end
 
     render json: { message: error_message }, status: 422
+  end
+
+  def show_params
+    params.permit(:id)
   end
 
   def create_params

@@ -23,19 +23,27 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
     end
 
     it 'responds with id' do
-      expect(response_json['id']).to eq myrequest.id
+      expect(response_json['request']['id']).to eq myrequest.id
     end
 
     it 'responds with title' do
-      expect(response_json['title']).to eq myrequest.title
+      expect(response_json['request']['title']).to eq myrequest.title
     end
 
     it 'responds with description' do
-      expect(response_json['description']).to eq myrequest.description
+      expect(response_json['request']['description']).to eq myrequest.description
+    end
+
+    it 'responds with reward' do
+      expect(response_json['request']['reward']).to eq myrequest.reward
     end
 
     it 'responds with all offers associated with the reQuest' do
-      expect(response_json['offers'].length).to eq 2
+      expect(response_json['request']['offers'].length).to eq 2
+    end
+
+    it "responds with the offering helper's uid" do
+      expect(response_json['request']['offers'][0]).to eq user1.uid
     end
   end
 
