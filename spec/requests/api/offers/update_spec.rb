@@ -15,6 +15,7 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
         put "/api/offers/#{offer.id}",
             headers: requester_headers,
             params: { activity: 'accepted' }
+        request.reload
       end
 
       it 'has 200 response' do
@@ -24,6 +25,14 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
       it 'responds offer message' do
         expect(response_json['message']).to eq "You accepted help from #{helper.email}"
       end
+
+      it 'sets the status of the request to "active"' do
+        expect(request.status).to eq "active"
+      end
+
+      it 'sets the helper of the request to be the one that offered help' do
+        expect(request.helper).to eq helper
+      end
     end
 
     describe 'declines offer' do
@@ -31,10 +40,19 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
         put "/api/offers/#{offer.id}",
             headers: requester_headers,
             params: { activity: 'declined' }
+        request.reload
       end
 
       it 'responds offer message' do
         expect(response_json['message']).to eq "You declined help from #{helper.email}"
+      end
+
+      it 'the status of the request is still "pending"' do
+        expect(request.status).to eq "pending"
+      end
+
+      it 'does not assign any helper to the request' do
+        expect(request.helper).to eq nil
       end
     end
   end
