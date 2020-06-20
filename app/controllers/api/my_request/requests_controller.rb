@@ -1,9 +1,18 @@
 # frozen_string_literal: true
 
 class Api::MyRequest::RequestsController < ApplicationController
-  before_action :authenticate_user!, only: %i[show create update]
+  before_action :authenticate_user!, only: %i[index show create update]
   before_action :karma?, only: [:create]
   rescue_from ArgumentError, with: :render_error_message
+
+  def index
+    requests = Request.where(requester: current_user).order('id DESC')
+    if requests == []
+      render json: { message: 'There are no requests to show' }, status: 404
+    else
+      render json: requests, each_serializer: MyRequest::Request::IndexSerializer
+    end
+ end
 
   def show
     request = Request.find(show_params[:id])

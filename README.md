@@ -87,6 +87,24 @@ If reQuester dont have enough karma points:
 All devise endpoints are available at /auth.
 Read more [here](https://devise-token-auth.gitbook.io/devise-token-auth/).
 
+#### GET my_request/requests
+
+Headers as parameter needed for getting the request list of a specific user
+
+```
+{"requests"=>
+  [
+    {"id"=>289, "title"=>"I need  help with this", "reward"=>100},
+    {"id"=>288, "title"=>"I need  help with this", "reward"=>100},
+    {"id"=>287, "title"=>"I need  help with this", "reward"=>100}
+  ]
+}
+```
+
+```
+{"message"=>"There are no requests to show"}
+```
+
 ### /karma_points
 
 #### GET /karma_points
