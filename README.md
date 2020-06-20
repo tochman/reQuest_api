@@ -26,14 +26,15 @@ The format is:
   ]
 }
 ```
+
 ### my_request/
+
 #### POST my_request/requests
 
 To create a new request you need to include authentication headers.
 You also need to provide :title=String and :description=String, and may provide category.
 Valid categories are "other", "education", "home", "it", "sport", "vehicles". Other is default if none is provided.
 The response will be a 200 with a message and the id of the created resource.
-
 
 ```
 { message: 'Your reQuest was successfully created!', id: <resource_id>, karma_points: <users karma_points> }
@@ -68,6 +69,24 @@ If reQuester dont have enough karma points:
 
 All devise endpoints are available at /auth.
 Read more [here](https://devise-token-auth.gitbook.io/devise-token-auth/).
+
+#### GET my_request/requests
+
+Headers as parameter needed for getting the request list of a specific user
+
+```
+{"requests"=>
+  [
+    {"id"=>289, "title"=>"I need  help with this", "reward"=>100},
+    {"id"=>288, "title"=>"I need  help with this", "reward"=>100},
+    {"id"=>287, "title"=>"I need  help with this", "reward"=>100}
+  ]
+}
+```
+
+```
+{"message"=>"There are no requests to show"}
+```
 
 ### /karma_points
 

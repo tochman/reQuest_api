@@ -1,9 +1,18 @@
 # frozen_string_literal: true
 
 class Api::MyRequest::RequestsController < ApplicationController
-  before_action :authenticate_user!, only: %i[create update]
+  before_action :authenticate_user!, only: %i[create update index]
   before_action :karma?, only: [:create]
   rescue_from ArgumentError, with: :render_error_message
+
+  def index
+    requests = Request.where(requester: current_user).order('id DESC')
+    if requests == []
+      render json: { message: 'There are no requests to show' }, status: 404
+    else
+      render json: requests, each_serializer: MyRequest::Request::IndexSerializer
+    end
+ end
 
   def create
     request = current_user.requests.create(create_params)
@@ -27,7 +36,7 @@ class Api::MyRequest::RequestsController < ApplicationController
     }, status: 422
   end
 
-  private  
+  private
 
   def update_karma
     Api::KarmaPointsController.update_karma(create_params, current_user)
