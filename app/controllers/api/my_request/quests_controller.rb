@@ -5,9 +5,9 @@ class Api::MyRequest::QuestsController < ApplicationController
   def index
     quests = Request.where(helper: current_user).order('id DESC')
     if quests == []
-      render json: { message: 'There are no Quests to show' }, status: 404
+      render json: { message: 'There are no quests to show' }, status: 404
     else
-      render json: quests, each_serializer: MyRequest::Quest::IndexSerializer
+      render json: quests, each_serializer: MyRequest::Quest::IndexSerializer, root: 'quests'
     end
- end
+  end
 end
