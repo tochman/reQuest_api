@@ -14,6 +14,10 @@ class Request < ApplicationRecord
     true
   end
 
+  def update_when_offer_accepted(helper)
+    self.update(status: 'active', helper: helper)
+  end
+
   private
 
   def validate_pending_status

@@ -19,7 +19,7 @@ class Offer < ApplicationRecord
 
   def update_request_status
     if status == "accepted" && status_was == "pending"
-      Request.find(request_id).update(status: 'active', helper: helper)
+      request.update_when_offer_accepted(helper)
     end
   end
 end
