@@ -36,6 +36,10 @@ RSpec.describe 'GET /api/my_requests/requests, users can see their list of reque
         it ':reward' do
           expect(response_json['requests'][0]).to have_key 'reward'
         end
+
+        it ':status' do
+          expect(response_json['requests'][0]).to have_key 'status'
+        end
       end
 
       describe 'does not have keys' do
