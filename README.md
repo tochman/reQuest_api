@@ -46,6 +46,11 @@ The format is:
 }
 ```
 
+Targeting a request that you're not the owner of, renders 422 and error message:
+```
+{ "message": "This is not your reQuest" }
+```
+
 #### POST my_request/requests
 
 To create a new request you need to include authentication headers.
@@ -63,10 +68,10 @@ If auth is missing, devise will throw the following with 401:
 {"errors": ["You need to sign in or sign up before continuing."]}
 ```
 
-If a param, e.g. description is missing, you will get 422:
+If a param, e.g. description and reward is missing, you will get 422:
 
 ```
-{ message: 'Description can't be blank' }
+{ message: 'Description can't be blank and Reward can't be blank' }
 ```
 
 If a non-valid category is supplied you will get 422:
@@ -102,7 +107,7 @@ Headers as parameter needed for getting the request list of a specific user
 ```
 
 ```
-{"message"=>"There are no requests to show"}
+{"message"=>"There are no reQuests to show"}
 ```
 
 ### /karma_points

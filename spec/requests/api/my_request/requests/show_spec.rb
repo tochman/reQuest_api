@@ -67,13 +67,12 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
         headers: headers
     end
 
-    it 'has 401 status' do
-      expect(response).to have_http_status 401
+    it 'has 422 status' do
+      expect(response).to have_http_status 422
     end
     
     it 'responds with error message' do
-      expect(response_json['message'])
-      .to eq 'Something went wrong: This is not your reQuest '
+      expect(response_json['message']).to eq 'This is not your reQuest'
     end
   end 
 end

@@ -66,7 +66,7 @@ RSpec.describe 'GET /api/my_requests/requests, users can see their list of reque
     end
   end
 
-  describe 'when there are no requests' do
+  describe 'when there are no reQuests' do
     before do
       get '/api/my_request/requests', headers: headers_2
     end
@@ -76,7 +76,7 @@ RSpec.describe 'GET /api/my_requests/requests, users can see their list of reque
     end
 
     it 'responds error message' do
-      expect(response_json['message']).to eq 'There are no requests to show'
+      expect(response_json['message']).to eq 'There are no reQuests to show'
     end
   end
 end
