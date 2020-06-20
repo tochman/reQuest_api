@@ -29,6 +29,32 @@ The format is:
 
 ### my_request/
 
+#### GET my_request/requests/:id
+
+```
+{
+  "request": {
+    "id": 1597, 
+    "title": "I need help with this", 
+    "description": "This is what I need help with", 
+    "reward": 100, 
+    "offers": [
+      {
+        "email": "person1@example.com"
+      },
+      {
+        "email": "person2@example.com"
+      }
+    ]
+  }
+}
+```
+
+Targeting a request that you're not the owner of, renders 422 and error message:
+```
+{ "message": "This is not your reQuest" }
+```
+
 #### POST my_request/requests
 
 To create a new request you need to include authentication headers.
@@ -43,13 +69,13 @@ The response will be a 200 with a message and the id of the created resource.
 If auth is missing, devise will throw the following with 401:
 
 ```
-{"errors"=>["You need to sign in or sign up before continuing."]}
+{"errors": ["You need to sign in or sign up before continuing."]}
 ```
 
-If a param, e.g. description is missing, you will get 422:
+If a param, e.g. description and reward is missing, you will get 422:
 
 ```
-{ message: 'Description can't be blank' }
+{ message: 'Description can't be blank and Reward can't be blank' }
 ```
 
 If a non-valid category is supplied you will get 422:
@@ -85,7 +111,7 @@ Headers as parameter needed for getting the request list of a specific user
 ```
 
 ```
-{"message"=>"There are no requests to show"}
+{"message"=>"There are no reQuests to show"}
 ```
 
 ### /karma_points
@@ -111,7 +137,7 @@ If ok, response is 200:
 Some other errors can happen as well, unauthorized 401 if headers are missing:
 
 ```
-{"errors"=>["You need to sign in or sign up before continuing."]}
+{"errors": ["You need to sign in or sign up before continuing."]}
 ```
 
 Or 422 if you try a forbidden action or have bad params:
