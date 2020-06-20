@@ -7,5 +7,6 @@ FactoryBot.define do
     reward { 100 }
     status { 'pending' }
     association :requester, factory: :user
+    association :helper, factory: :user
   end
 end
