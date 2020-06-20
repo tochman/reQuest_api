@@ -30,8 +30,6 @@ The format is:
 
 ### my_request/
 
-<<<<<<< HEAD
-=======
 #### GET my_request/requests/:id
 
 ```
@@ -58,7 +56,6 @@ Targeting a request that you're not the owner of, renders 422 and error message:
 { "message": "This is not your reQuest" }
 ```
 
->>>>>>> 2b6dc63150c4c86548ed5c51fe25683832c61524
 #### POST my_request/requests
 
 To create a new request you need to include authentication headers.
