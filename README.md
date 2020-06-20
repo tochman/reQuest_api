@@ -20,6 +20,7 @@ The format is:
       title: "Title",
       description: "Lots of text",
       requester: "requester@mail.com",
+      category: "home",
       reward: 100
       offerable: true
     }
@@ -153,8 +154,7 @@ Or 422 if you try a forbidden action or have bad params:
 Auth headers are required. Param :activity that can be declined or accepted as string.
 
 ```
-{ offer: offer.id, message: 'offer is accepted' }
-{ offer: offer.id, message: 'offer is declined' }
+{ offer: offer.id, message: 'You accepted/declined help from helper@mail.com' }
 ```
 
 if other activity response status 500 with message:
@@ -169,22 +169,13 @@ Auth headers are required. Offer :id in endpoint.
 
 ```
 {
-  offer:  id: 4,
-  message: "here is the message",
-  helper_id: 2,
-  request_id: 3,
-  status: "accepted",
-  message: 'Your offer has been accepted'
- }
-{
-  offer: id: 4,
-  message: "here is the message",
-  helper_id: 2,
-  request_id: 3,
-  status: "accepted",
-  message: 'Your offer has been declined'
+  offer:  {
+    id: 4,
+    message: "I want to help you",
+    helper_id: 2,
+    request_id: 3,
+    status: "pending", (OR "declined", OR "accepted",)
+    message: "Your offer is pending" (OR "Your offer has been accepted" OR "Your offer has been declined")
   }
-
-  { offer: <offer items>,
-  message: 'Your offer is pending' }
+}
 ```

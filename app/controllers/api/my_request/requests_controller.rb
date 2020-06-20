@@ -44,7 +44,7 @@ class Api::MyRequest::RequestsController < ApplicationController
   end
 
   def karma?
-    unless (current_user.karma_points - create_params[:reward].to_i).positive? || (current_user.karma_points - create_params[:reward].to_i == 0)
+    unless (current_user.karma_points - create_params[:reward].to_i >= 0)
       render json: { message: 'You dont have enough karma points' }, status: 422
     end
   end
