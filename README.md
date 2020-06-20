@@ -34,10 +34,10 @@ The format is:
 ```
 {
   "request": {
-    "id": 1597, 
-    "title": "I need help with this", 
-    "description": "This is what I need help with", 
-    "reward": 100, 
+    "id": 1597,
+    "title": "I need help with this",
+    "description": "This is what I need help with",
+    "reward": 100,
     "offers": [
       {
         "email": "person1@example.com"
@@ -51,6 +51,7 @@ The format is:
 ```
 
 Targeting a request that you're not the owner of, renders 422 and error message:
+
 ```
 { "message": "This is not your reQuest" }
 ```
@@ -187,4 +188,24 @@ Auth headers are required. Offer :id in endpoint.
 
   { offer: <offer items>,
   message: 'Your offer is pending' }
+```
+
+### my_request/quests
+
+#### GET my_request/quests
+
+Headers as parameter needed for getting the quest list of a specific user
+
+```
+{"quests"=>
+  [
+    {"id"=>289, "title"=>"I need  help with this", "reward"=>100},
+    {"id"=>288, "title"=>"I need  help with this", "reward"=>100},
+    {"id"=>287, "title"=>"I need  help with this", "reward"=>100}
+  ]
+}
+```
+
+```
+{"message"=>"There are no quests to show"}
 ```
