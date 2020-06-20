@@ -50,7 +50,7 @@ RSpec.describe 'Api::MyRequest::Requests :update', type: :request do
 
     it 'responds with the completed confirmation' do
       expect(response_json['message'])
-      .to eq 'Something went wrong: Request not reachable '
+      .to eq 'Something went wrong: This is not your reQuest '
     end
   end
 

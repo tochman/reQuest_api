@@ -3,11 +3,16 @@
 class Api::MyRequest::RequestsController < ApplicationController
   before_action :authenticate_user!, only: %i[show create update]
   before_action :karma?, only: [:create]
-  before_action :correct_user?, only: [:show]
   rescue_from ArgumentError, with: :render_error_message
 
   def show
-    render json: @request, serializer: MyRequest::Request::ShowSerializer
+    request = Request.find(show_params[:id])
+    request.is_requested_by?(current_user)
+    render json: request, serializer: MyRequest::Request::ShowSerializer
+    rescue StandardError => e
+      render json: {
+        message: "Something went wrong: #{request.errors.any? ? request.errors.full_messages.to_sentence : e.message} "
+      }, status: 401
   end
 
   def create
@@ -33,13 +38,6 @@ class Api::MyRequest::RequestsController < ApplicationController
   end
 
   private
-
-  def correct_user?
-    @request = Request.find(show_params[:id])
-    if User.find(@request.requester_id) != current_user
-      render json: { message: "This is not your reQuest" }, status: 401
-    end
-  end
 
   def update_karma
     Api::KarmaPointsController.update_karma(create_params, current_user)

@@ -72,7 +72,8 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
     end
     
     it 'responds with error message' do
-      expect(response_json['message']).to eq "This is not your reQuest"
+      expect(response_json['message'])
+      .to eq 'Something went wrong: This is not your reQuest '
     end
   end 
 end
