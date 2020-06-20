@@ -19,6 +19,7 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
     end
 
     it 'has 200 response' do
+      binding.pry
       expect(response).to have_http_status 200
     end
 

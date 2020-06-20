@@ -39,6 +39,7 @@ The format is:
     "title": "I need help with this",
     "description": "This is what I need help with",
     "reward": 100,
+    "status":"pending"
     "offers": [
       {
         "email": "person1@example.com"
@@ -105,9 +106,9 @@ Headers as parameter needed for getting the request list of a specific user
 ```
 {"requests"=>
   [
-    {"id"=>289, "title"=>"I need  help with this", "reward"=>100},
-    {"id"=>288, "title"=>"I need  help with this", "reward"=>100},
-    {"id"=>287, "title"=>"I need  help with this", "reward"=>100}
+    {"id"=>289, "title"=>"I need  help with this", "reward"=>100,"status"=>"pending"},
+    {"id"=>288, "title"=>"I need  help with this", "reward"=>100,"status"=>"pending"},
+    {"id"=>287, "title"=>"I need  help with this", "reward"=>100,"status"=>"pending"}
   ]
 }
 ```

@@ -17,6 +17,7 @@ RSpec.describe 'GET /api/my_requests/requests, users can see their list of reque
 
     describe 'successfully gets the requests' do
       it 'has a 200 response' do
+        binding.pry
         expect(response).to have_http_status 200
       end
 
