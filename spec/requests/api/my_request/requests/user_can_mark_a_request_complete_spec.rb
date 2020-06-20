@@ -28,7 +28,7 @@ RSpec.describe 'Api::MyRequest::Requests :update', type: :request do
 
     it 'responds with the completed confirmation' do
       expect(response_json['message'])
-      .to eq 'Request completed!'
+      .to eq 'reQuest completed!'
     end
   end
 
@@ -49,12 +49,11 @@ RSpec.describe 'Api::MyRequest::Requests :update', type: :request do
     end
 
     it 'responds with the completed confirmation' do
-      expect(response_json['message'])
-      .to eq 'Something went wrong: Request not reachable '
+      expect(response_json['message']).to eq 'This is not your reQuest'
     end
   end
 
-  describe "User can't mark pending request completed" do
+  describe "User can't mark pending reQuest completed" do
     before do
       put "/api/my_request/requests/#{request_2.id}",
           headers: headers,
@@ -72,7 +71,7 @@ RSpec.describe 'Api::MyRequest::Requests :update', type: :request do
 
     it 'responds with the completed confirmation' do
       expect(response_json['message'])
-        .to eq 'Something went wrong: Status cannot be set to completed when it is pending '
+        .to eq 'Validation failed: Status cannot be set to completed when it is pending'
     end
   end
 end

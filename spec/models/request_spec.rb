@@ -48,7 +48,7 @@ RSpec.describe Request, type: :model do
       subject { create(:request, requester: user, status: 'pending') }
       it 'returns false if user is NOT requester' do
         expect { subject.is_requested_by?(another_user) }
-          .to raise_error StandardError, 'Request not reachable'
+          .to raise_error StandardError, 'This is not your reQuest'
       end
     end
   end

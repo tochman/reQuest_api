@@ -1,9 +1,25 @@
 # frozen_string_literal: true
 
 class Api::MyRequest::RequestsController < ApplicationController
-  before_action :authenticate_user!, only: %i[create update]
+  before_action :authenticate_user!, only: %i[index show create update]
   before_action :karma?, only: [:create]
   rescue_from ArgumentError, with: :render_error_message
+  rescue_from StandardError, with: :render_error_message
+
+  def index
+    requests = Request.where(requester: current_user).order('id DESC')
+    if requests == []
+      render json: { message: 'There are no reQuests to show' }, status: 404
+    else
+      render json: requests, each_serializer: MyRequest::Request::IndexSerializer
+    end
+ end
+
+  def show
+    request = Request.find(show_params[:id])
+    request.is_requested_by?(current_user)
+    render json: request, serializer: MyRequest::Request::ShowSerializer
+  end
 
   def create
     request = current_user.requests.create(create_params)
@@ -18,16 +34,10 @@ class Api::MyRequest::RequestsController < ApplicationController
   def update
     request = Request.find(update_params[:id])
     request.is_requested_by?(current_user) && request.send("#{update_params[:activity]}!".to_sym)
-    render json: {
-      message: 'Request completed!'
-    }
-  rescue StandardError => e
-    render json: {
-      message: "Something went wrong: #{request.errors.any? ? request.errors.full_messages.to_sentence : e.message} "
-    }, status: 422
+    render json: { message: 'reQuest completed!' }
   end
 
-  private  
+  private
 
   def update_karma
     Api::KarmaPointsController.update_karma(create_params, current_user)
@@ -47,6 +57,10 @@ class Api::MyRequest::RequestsController < ApplicationController
     end
 
     render json: { message: error_message }, status: 422
+  end
+
+  def show_params
+    params.permit(:id)
   end
 
   def create_params

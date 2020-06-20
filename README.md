@@ -30,6 +30,35 @@ The format is:
 
 ### my_request/
 
+<<<<<<< HEAD
+=======
+#### GET my_request/requests/:id
+
+```
+{
+  "request": {
+    "id": 1597, 
+    "title": "I need help with this", 
+    "description": "This is what I need help with", 
+    "reward": 100, 
+    "offers": [
+      {
+        "email": "person1@example.com"
+      },
+      {
+        "email": "person2@example.com"
+      }
+    ]
+  }
+}
+```
+
+Targeting a request that you're not the owner of, renders 422 and error message:
+```
+{ "message": "This is not your reQuest" }
+```
+
+>>>>>>> 2b6dc63150c4c86548ed5c51fe25683832c61524
 #### POST my_request/requests
 
 To create a new request you need to include authentication headers.
@@ -44,7 +73,7 @@ The response will be a 200 with a message and the id of the created resource.
 If auth is missing, devise will throw the following with 401:
 
 ```
-{"errors"=>["You need to sign in or sign up before continuing."]}
+{"errors": ["You need to sign in or sign up before continuing."]}
 ```
 
 If a param, e.g. description and reward is missing, you will get 422:
@@ -71,6 +100,24 @@ If reQuester dont have enough karma points:
 All devise endpoints are available at /auth.
 Read more [here](https://devise-token-auth.gitbook.io/devise-token-auth/).
 
+#### GET my_request/requests
+
+Headers as parameter needed for getting the request list of a specific user
+
+```
+{"requests"=>
+  [
+    {"id"=>289, "title"=>"I need  help with this", "reward"=>100},
+    {"id"=>288, "title"=>"I need  help with this", "reward"=>100},
+    {"id"=>287, "title"=>"I need  help with this", "reward"=>100}
+  ]
+}
+```
+
+```
+{"message"=>"There are no reQuests to show"}
+```
+
 ### /karma_points
 
 #### GET /karma_points
@@ -94,7 +141,7 @@ If ok, response is 200:
 Some other errors can happen as well, unauthorized 401 if headers are missing:
 
 ```
-{"errors"=>["You need to sign in or sign up before continuing."]}
+{"errors": ["You need to sign in or sign up before continuing."]}
 ```
 
 Or 422 if you try a forbidden action or have bad params:
