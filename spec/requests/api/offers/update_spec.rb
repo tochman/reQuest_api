@@ -62,7 +62,7 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
             headers: requester_headers
       end
 
-      it 'has 422 response' do
+      it 'has 500 response' do
         expect(response).to have_http_status 500
       end
 
