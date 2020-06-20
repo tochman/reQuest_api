@@ -42,8 +42,8 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
       expect(response_json['request']['offers'].length).to eq 2
     end
 
-    it "responds with the offering helper's uid" do
-      expect(response_json['request']['offers'][0]).to eq user_1.uid
+    it "responds with the offering helper's email" do
+      expect(response_json['request']['offers'][0]['email']).to eq user_1.email
     end
   end
 

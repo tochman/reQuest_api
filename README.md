@@ -39,8 +39,12 @@ The format is:
     "description": "This is what I need help with", 
     "reward": 100, 
     "offers": [
-      "person1@example.com", 
-      "person2@example.com"
+      {
+        "email": "person1@example.com"
+      },
+      {
+        "email": "person2@example.com"
+      }
     ]
   }
 }

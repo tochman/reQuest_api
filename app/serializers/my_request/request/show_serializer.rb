@@ -2,12 +2,12 @@ class MyRequest::Request::ShowSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :reward, :offers
 
   def offers
-    offer_uids = []
+    offers_response = []
     object.offers.each do |offer|
       helper = User.find(offer.helper_id)
-      offer_uids << helper.uid
+      offers_response << { email: helper.email } 
     end
     
-    return offer_uids
+    return offers_response
   end
 end
