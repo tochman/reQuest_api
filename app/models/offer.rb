@@ -7,7 +7,7 @@ class Offer < ApplicationRecord
   belongs_to :helper, class_name: 'User'
   validates_uniqueness_of :helper_id, scope: :request_id, message: 'is already registered with this request'
   enum status: %i[pending accepted declined]
-  after_update :update_request_status
+  around_update :update_request_status
 
   private
 
@@ -18,7 +18,7 @@ class Offer < ApplicationRecord
   end
 
   def update_request_status
-    if status == "accepted"
+    if status == "accepted" && status_was == "pending"
       Request.find(request_id).update(status: 'active', helper: helper)
     end
   end
