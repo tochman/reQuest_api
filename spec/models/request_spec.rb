@@ -18,6 +18,8 @@ RSpec.describe Request, type: :model do
     it { is_expected.to validate_presence_of :status }
     it { is_expected.to validate_presence_of :category }
 
+    it { is_expected.to validate_numericality_of(:reward).is_greater_than_or_equal_to(0) }
+
     describe 'prevents requester from updating request status to completed while pending' do
       subject { create(:request, requester: user, status: 'pending') }
       before do
@@ -53,7 +55,5 @@ RSpec.describe Request, type: :model do
           .to raise_error StandardError, 'This is not your reQuest'
       end
     end
-
-    it { is_expected.to validate_numericality_of(:reward).is_greater_than_or_equal_to(0) }
   end
 end
