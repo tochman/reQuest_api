@@ -53,5 +53,7 @@ RSpec.describe Request, type: :model do
           .to raise_error StandardError, 'This is not your reQuest'
       end
     end
+
+    it { is_expected.to validate_numericality_of(:reward).is_greater_than_or_equal_to(0) }
   end
 end
