@@ -9,8 +9,13 @@ class Request < ApplicationRecord
   enum category: { other: 0, education: 1, home: 2, it: 3, sport: 4, vehicles: 5 }
   validate :validate_pending_status, on: :update
 
-  def is_requested_by?(user)
-    raise(StandardError, 'This is not your reQuest') unless requester == user
+  def requested_by?(user)
+    requester == user
+  end
+
+  def validate_requester(user)
+    message = 'This is not your reQuest'
+    raise StandardError, message unless requested_by? user
 
     true
   end

@@ -44,12 +44,22 @@ RSpec.describe Request, type: :model do
     end
   end
 
-  describe 'constraits' do
-    describe '#is_requested_by?' do
+  describe 'instance metthods' do
+    describe '#requested_by?' do
       let(:another_user) { create(:user, email: 'another@mail.com') }
       subject { create(:request, requester: user, status: 'pending') }
       it 'returns false if user is NOT requester' do
-        expect { subject.is_requested_by?(another_user) }
+        expect(subject.requested_by?(another_user)).to be_falsey
+      end
+    end
+  end
+
+  describe 'constraits' do
+    describe '#validate_requester' do
+      let(:another_user) { create(:user, email: 'another@mail.com') }
+      subject { create(:request, requester: user, status: 'pending') }
+      it 'returns false if user is NOT requester' do
+        expect { subject.validate_requester(another_user) }
           .to raise_error StandardError, 'This is not your reQuest'
       end
     end

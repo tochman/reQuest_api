@@ -17,7 +17,7 @@ class Api::MyRequest::RequestsController < ApplicationController
 
   def show
     request = Request.find(show_params[:id])
-    request.is_requested_by?(current_user)
+    request.validate_requester(current_user)
     render json: request, serializer: MyRequest::Request::ShowSerializer
   end
 
@@ -33,7 +33,7 @@ class Api::MyRequest::RequestsController < ApplicationController
 
   def update
     request = Request.find(update_params[:id])
-    request.is_requested_by?(current_user) && request.send("#{update_params[:activity]}!".to_sym)
+    request.validate_requester(current_user) && request.send("#{update_params[:activity]}!".to_sym)
     render json: { message: 'reQuest completed!' }
   end
 
@@ -44,17 +44,17 @@ class Api::MyRequest::RequestsController < ApplicationController
   end
 
   def karma?
-    unless (current_user.karma_points - create_params[:reward].to_i >= 0)
+    unless current_user.karma_points - create_params[:reward].to_i >= 0
       render json: { message: 'You dont have enough karma points' }, status: 422
     end
   end
 
   def render_error_message(errors)
-    if !errors.class.method_defined?(:full_messages)
-      error_message = errors.message
-    else
-      error_message = errors.full_messages.to_sentence
-    end
+    error_message = if !errors.class.method_defined?(:full_messages)
+                      errors.message
+                    else
+                      errors.full_messages.to_sentence
+                    end
 
     render json: { message: error_message }, status: 422
   end
