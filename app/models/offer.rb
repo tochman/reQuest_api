@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Offer < ApplicationRecord
-  before_save :validate_offer_creator # , on: [:create]
+  before_save :validate_offer_creator
   validates_presence_of :status
   belongs_to :request
   belongs_to :helper, class_name: 'User'
@@ -18,7 +18,7 @@ class Offer < ApplicationRecord
   end
 
   def update_request_status
-    if status == 'accepted' && status_was == 'pending'
+    if accepted? && status_was == 'pending'
       request.update_when_offer_accepted(helper)
     end
   end
