@@ -7,7 +7,7 @@ class Api::RequestsController < ApplicationController
     requests = if category == 'all'
                  Request.all.order('id DESC')
                else
-                 Request.find(request_params).order('id DESC')
+                 Request.where(request_params)
                end
 
     render json: requests, each_serializer: Request::IndexSerializer

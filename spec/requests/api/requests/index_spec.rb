@@ -7,6 +7,7 @@ RSpec.describe 'GET /request, can get all requests' do
   let(:requester) { create(:user, email: 'requester@mail.com') }
   let!(:req) { 6.times { create(:request, requester: requester) } }
   let!(:req2) { 1.times { create(:request, requester: user) } }
+  let!(:req3) { 3.times { create(:request, requester: requester, category: 'home') } }
 
   let!(:offer) { create(:offer, helper: user, request: Request.first) }
 
@@ -21,7 +22,7 @@ RSpec.describe 'GET /request, can get all requests' do
       end
 
       it 'contains all the requests' do
-        expect(response_json['requests'].length).to eq 7
+        expect(response_json['requests'].length).to eq 10
       end
 
       describe 'has keys' do
@@ -50,6 +51,25 @@ RSpec.describe 'GET /request, can get all requests' do
         it ':created_at' do
           expect(response_json['requests'][0]).not_to have_key 'created_at'
         end
+      end
+    end
+  end
+
+  describe 'without authentication with params' do
+    before do
+      get '/api/requests', params: { category: 'home' }
+    end
+    it 'has a 200 response' do
+      expect(response).to have_http_status 200
+    end
+
+    it 'contains all the requests' do
+      expect(response_json['requests'].length).to eq 3
+    end
+
+    it 'contains home category only' do
+      response_json['requests'].each do |element|
+        expect(element['category']).to eq 'home'
       end
     end
   end
