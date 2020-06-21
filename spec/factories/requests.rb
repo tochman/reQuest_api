@@ -6,6 +6,7 @@ FactoryBot.define do
     description { 'This is what I need help with' }
     reward { 100 }
     status { 'pending' }
+    category { 'education' }
     association :requester, factory: :user
   end
 end

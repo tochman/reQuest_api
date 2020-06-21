@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MyRequest::Request::ShowSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :reward, :offers
+  attributes :id, :title, :description, :reward, :offers, :status
 
   def offers
     offers_response = []

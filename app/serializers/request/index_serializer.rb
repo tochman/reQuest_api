@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Request::IndexSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :requester, :offerable, :reward
+  attributes :id, :title, :description, :requester, :offerable, :reward, :category
 
   def requester
     object.requester.uid

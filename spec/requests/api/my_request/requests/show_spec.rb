@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
-  let(:requester) { create(:user, email: 'requester@mail.com')}
+  let(:requester) { create(:user, email: 'requester@mail.com') }
   let(:credentials) { requester.create_new_auth_token }
   let(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
   let(:my_request) { create(:request, requester: requester) }
@@ -15,7 +15,7 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
   describe 'with valid credentials and params' do
     before do
       get "/api/my_request/requests/#{my_request.id}",
-        headers: headers
+          headers: headers
     end
 
     it 'has 200 response' do
@@ -32,6 +32,10 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
 
     it 'responds with description' do
       expect(response_json['request']['description']).to eq my_request.description
+    end
+
+    it ':status' do
+      expect(response_json['request']['status']).to eq my_request.status
     end
 
     it 'responds with reward' do
@@ -64,15 +68,15 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
   describe "targeting someone else's reQuest" do
     before do
       get "/api/my_request/requests/#{not_my_request.id}",
-        headers: headers
+          headers: headers
     end
 
     it 'has 422 status' do
       expect(response).to have_http_status 422
     end
-    
+
     it 'responds with error message' do
       expect(response_json['message']).to eq 'This is not your reQuest'
     end
-  end 
+  end
 end
