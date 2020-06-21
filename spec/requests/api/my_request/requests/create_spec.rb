@@ -104,7 +104,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
       end
 
       it 'responds with an error message' do
-        expect(response_json['message']).to eq "Description can't be blank and Reward can't be blank"
+        expect(response_json['message']).to eq "Description can't be blank, Reward can't be blank, and Reward is not a number"
       end
     end
 
@@ -122,7 +122,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
       end
 
       it 'responds with an error message' do
-        expect(response_json['message']).to eq "Reward can't be blank"
+        expect(response_json['message']).to eq "Reward can't be blank and Reward is not a number"
       end
     end
 

@@ -17,7 +17,6 @@ RSpec.describe 'Api::MyRequest::Requests :update', type: :request do
           headers: headers,
           params: { activity: 'completed' }
       request.reload
-      user2.reload
     end
 
     it 'has 200 response' do
@@ -34,6 +33,7 @@ RSpec.describe 'Api::MyRequest::Requests :update', type: :request do
     end
 
     it 'rewards the helper with the karma points from the request' do
+      user2.reload
       expect(user2.karma_points).to eq @points_before + request.reward
     end
   end
