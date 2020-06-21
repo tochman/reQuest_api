@@ -8,6 +8,7 @@ RSpec.describe Request, type: :model do
     it { is_expected.to have_db_column :description }
     it { is_expected.to have_db_column :reward }
     it { is_expected.to have_db_column :status }
+    it { is_expected.to have_db_column :category }
   end
 
   describe 'validations' do
@@ -15,6 +16,7 @@ RSpec.describe Request, type: :model do
     it { is_expected.to validate_presence_of :description }
     it { is_expected.to validate_presence_of :reward }
     it { is_expected.to validate_presence_of :status }
+    it { is_expected.to validate_presence_of :category }
 
     describe 'prevents requester from updating request status to completed while pending' do
       subject { create(:request, requester: user, status: 'pending') }
