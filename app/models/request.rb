@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Request < ApplicationRecord
-  validates_presence_of :title, :description, :reward, :status
+  validates_presence_of :title, :description, :reward, :status, :category
   belongs_to :requester, class_name: 'User'
   belongs_to :helper, required: false, class_name: 'User'
   has_many :offers
@@ -11,11 +11,12 @@ class Request < ApplicationRecord
 
   def is_requested_by?(user)
     raise(StandardError, 'This is not your reQuest') unless requester == user
+
     true
   end
 
   def update_when_offer_accepted(helper)
-    self.update(status: 'active', helper: helper)
+    update(status: 'active', helper: helper)
   end
 
   private
