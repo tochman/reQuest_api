@@ -107,8 +107,8 @@ Headers as parameter needed for getting the request list of a specific user
 {"requests"=>
   [
     {"id"=>289, "title"=>"I need  help with this", "reward"=>100,"status"=>"pending"},
-    {"id"=>288, "title"=>"I need  help with this", "reward"=>100,"status"=>"pending"},
-    {"id"=>287, "title"=>"I need  help with this", "reward"=>100,"status"=>"pending"}
+    {"id"=>288, "title"=>"I need  help with this", "reward"=>100,"status"=>"active"},
+    {"id"=>287, "title"=>"I need  help with this", "reward"=>100,"status"=>"completed"}
   ]
 }
 ```
