@@ -13,7 +13,7 @@ class Api::MyRequest::RequestsController < ApplicationController
     else
       render json: requests, each_serializer: MyRequest::Request::IndexSerializer
     end
- end
+  end
 
   def show
     request = Request.find(show_params[:id])

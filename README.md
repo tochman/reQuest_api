@@ -75,7 +75,7 @@ If auth is missing, devise will throw the following with 401:
 {"errors": ["You need to sign in or sign up before continuing."]}
 ```
 
-If a param, e.g. description and reward is missing, you will get 422:
+If a param, e.g. description and reward is missing, or reward is negative or not a number, you will get 422:
 
 ```
 { message: 'Description can't be blank and Reward can't be blank' }
