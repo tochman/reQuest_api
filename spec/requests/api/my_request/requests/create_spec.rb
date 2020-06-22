@@ -56,7 +56,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
     end
   end
 
-  describe 'user cannot set an invalid category' do
+  describe 'karma points are subtracted from the user' do
     before do
       post '/api/my_request/requests',
            headers: headers,
@@ -64,17 +64,15 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
              title: 'reQuest title',
              description: 'You shall come and help me!',
              reward: 100,
-             category: 'car'
+             category: 'home'
            }
       @quest = Request.last
     end
-    
-    it 'gives an error code' do
-      expect(response).to have_http_status 422
-    end
 
-    it 'gives an error message' do
-      expect(response_json['message']).to eq "'car' is not a valid category"
+    it 'when reQuest is created' do
+      expect(user.karma_points).to eq 100
+      user.reload
+      expect(user.karma_points).to eq 0
     end
   end
 
@@ -94,7 +92,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
       end
     end
 
-    describe 'with valid credentials and sevral missing params' do
+    describe 'with valid credentials and several missing params' do
       before do
         post '/api/my_request/requests', headers: headers, params: { title: 'reQuestus title' }
       end
@@ -105,24 +103,6 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
 
       it 'responds with an error message' do
         expect(response_json['message']).to eq "Description can't be blank, Reward can't be blank, and Reward is not a number"
-      end
-    end
-
-    describe 'with valid credentials and sevral missing params' do
-      before do
-        post '/api/my_request/requests',
-             headers: headers,
-             params: {
-               title: 'reQuestus title',
-               description: 'You shall come and help me!'
-             }
-      end
-      it 'has 422 response' do
-        expect(response).to have_http_status 422
-      end
-
-      it 'responds with an error message' do
-        expect(response_json['message']).to eq "Reward can't be blank and Reward is not a number"
       end
     end
 
@@ -142,6 +122,28 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
 
       it 'responds with an error message' do
         expect(response_json['message']).to eq 'You dont have enough karma points'
+      end
+    end
+
+    describe 'when trying to set an invalid category' do
+      before do
+        post '/api/my_request/requests',
+             headers: headers,
+             params: {
+               title: 'reQuest title',
+               description: 'You shall come and help me!',
+               reward: 100,
+               category: 'car'
+             }
+        @quest = Request.last
+      end
+      
+      it 'has 422 response' do
+        expect(response).to have_http_status 422
+      end
+  
+      it 'responds with an error message' do
+        expect(response_json['message']).to eq "'car' is not a valid category"
       end
     end
   end

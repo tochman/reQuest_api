@@ -9,5 +9,7 @@ class Api::KarmaPointsController < ApplicationController
 
   def self.update_karma(request, user)
     user.karma_points -= request[:reward].to_i
+    user.save
+    return user.karma_points
   end
 end
