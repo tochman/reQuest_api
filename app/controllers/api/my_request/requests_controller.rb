@@ -13,7 +13,7 @@ class Api::MyRequest::RequestsController < ApplicationController
     else
       render json: requests, each_serializer: MyRequest::Request::IndexSerializer
     end
- end
+  end
 
   def show
     request = Request.find(show_params[:id])
@@ -34,7 +34,7 @@ class Api::MyRequest::RequestsController < ApplicationController
   def update
     request = Request.find(update_params[:id])
     request.is_requested_by?(current_user) && request.send("#{update_params[:activity]}!".to_sym)
-    request.helper.reward_karma_points(request.reward)
+    request.reward_helper
     render json: { message: 'reQuest completed!' }
   end
 

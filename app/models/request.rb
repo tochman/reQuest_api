@@ -20,6 +20,10 @@ class Request < ApplicationRecord
     update(status: 'active', helper: helper)
   end
 
+  def reward_helper
+    helper.reward_karma_points(reward)
+  end
+
   private
 
   def validate_pending_status
