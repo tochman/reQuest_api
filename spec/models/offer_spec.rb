@@ -18,4 +18,18 @@ RSpec.describe Offer, type: :model do
       expect(create(:offer)).to be_valid
     end
   end
+
+  describe 'hooks/callbacks' do
+    describe 'before_save #validate_offer_creator' do
+      let(:requester) { create(:user) }
+      let(:request) { create(:request, requester: requester) }
+
+      it 'prevents requester from becoming an helper on own request' do
+        expect do
+          create(:offer, request: request, helper: requester)
+        end
+          .to raise_error StandardError, 'You cannot offer help on your own request!'
+      end
+    end
+  end
 end

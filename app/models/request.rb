@@ -11,8 +11,13 @@ class Request < ApplicationRecord
   validates_numericality_of :reward, greater_than_or_equal_to: 0
   after_update :reward_helper
 
-  def is_requested_by?(user)
-    raise(StandardError, 'This is not your reQuest') unless requester == user
+  def requested_by?(user)
+    requester == user
+  end
+
+  def validate_requester(user)
+    message = 'This is not your reQuest'
+    raise StandardError, message unless requested_by? user
 
     true
   end

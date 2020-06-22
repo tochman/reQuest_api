@@ -2,6 +2,7 @@
 
 class Api::MyRequest::RequestsController < ApplicationController
   before_action :authenticate_user!, only: %i[index show create update]
+  before_action :get_request, only: %i[update show]
   before_action :karma?, only: [:create]
   rescue_from ArgumentError, with: :render_error_message
   rescue_from StandardError, with: :render_error_message
@@ -16,9 +17,8 @@ class Api::MyRequest::RequestsController < ApplicationController
   end
 
   def show
-    request = Request.find(show_params[:id])
-    request.is_requested_by?(current_user)
-    render json: request, serializer: MyRequest::Request::ShowSerializer
+    @request.validate_requester(current_user)
+    render json: @request, serializer: MyRequest::Request::ShowSerializer
   end
 
   def create
@@ -32,29 +32,32 @@ class Api::MyRequest::RequestsController < ApplicationController
   end
 
   def update
-    request = Request.find(update_params[:id])
-    request.is_requested_by?(current_user) && request.send("#{update_params[:activity]}!".to_sym)
+    @request.validate_requester(current_user) && @request.send("#{update_params[:activity]}!".to_sym)
     render json: { message: 'reQuest completed!' }
   end
 
   private
+
+  def get_request
+    @request = Request.find(update_params[:id])
+  end
 
   def update_karma
     Api::KarmaPointsController.update_karma(create_params, current_user)
   end
 
   def karma?
-    unless (current_user.karma_points - create_params[:reward].to_i >= 0)
+    unless current_user.karma_points - create_params[:reward].to_i >= 0
       render json: { message: 'You dont have enough karma points' }, status: 422
     end
   end
 
   def render_error_message(errors)
-    if !errors.class.method_defined?(:full_messages)
-      error_message = errors.message
-    else
-      error_message = errors.full_messages.to_sentence
-    end
+    error_message = if !errors.class.method_defined?(:full_messages)
+                      errors.message
+                    else
+                      errors.full_messages.to_sentence
+                    end
 
     render json: { message: error_message }, status: 422
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Offer < ApplicationRecord
-  before_validation :validate_offer, on: [:create]
+  before_save :validate_offer_creator
   validates_presence_of :status
   belongs_to :request
   belongs_to :helper, class_name: 'User'
@@ -11,14 +11,14 @@ class Offer < ApplicationRecord
 
   private
 
-  def validate_offer
-    if helper_id.present? && helper_id === request.requester.id
+  def validate_offer_creator
+    if request.requested_by?(helper)
       raise StandardError, 'You cannot offer help on your own request!'
     end
   end
 
   def update_request_status
-    if status == "accepted" && status_was == "pending"
+    if accepted? && status_was == 'pending'
       request.update_when_offer_accepted(helper)
     end
   end
