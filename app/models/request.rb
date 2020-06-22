@@ -9,6 +9,7 @@ class Request < ApplicationRecord
   enum category: { other: 0, education: 1, home: 2, it: 3, sport: 4, vehicles: 5 }
   validate :validate_pending_status, on: :update
   validates_numericality_of :reward, greater_than_or_equal_to: 0
+  after_update :reward_helper
 
   def is_requested_by?(user)
     raise(StandardError, 'This is not your reQuest') unless requester == user
@@ -21,7 +22,7 @@ class Request < ApplicationRecord
   end
 
   def reward_helper
-    helper.reward_karma_points(reward)
+    helper.reward_karma_points(reward) if completed?
   end
 
   private
