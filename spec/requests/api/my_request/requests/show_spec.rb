@@ -23,7 +23,7 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
     end
 
     it 'responds with correct request' do
-      expect(response_json['request'].id).to eq my_request.id
+      expect(response_json['request']['id']).to eq my_request.id
     end
 
     it 'responds with all offers associated with the reQuest' do

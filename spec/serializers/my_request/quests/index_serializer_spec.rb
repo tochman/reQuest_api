@@ -36,6 +36,7 @@ RSpec.describe MyRequest::Quest::IndexSerializer, type: :serializer do
       "quests" => a_collection_including({
         "id" => an_instance_of(Integer),
         "title" => an_instance_of(String),
+        "description" => an_instance_of(String),
         "reward" => an_instance_of(Integer),
         "status" => an_instance_of(String),
         "requester" => a_string_including('@')
