@@ -26,8 +26,8 @@ RSpec.describe MyRequest::Quest::IndexSerializer, type: :serializer do
     expect(subject.keys).to match ["quests"]
   end
 
-  it 'contains only id, title, reward, status and requester' do
-    expected_keys = %w[id title reward status requester]
+  it 'contains only id, title, description, reward, status and requester' do
+    expected_keys = %w[id title description reward status requester]
     expect(subject["quests"].first.keys).to match expected_keys
   end
 
