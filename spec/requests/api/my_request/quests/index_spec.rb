@@ -24,32 +24,6 @@ RSpec.describe 'GET /api/my_requests/quests, users can see their list of quests'
       it 'contains all the quests' do
         expect(response_json['quests'].length).to eq 3
       end
-
-      describe 'has keys' do
-        it ':id' do
-          expect(response_json['quests'][0]).to have_key 'id'
-        end
-
-        it ':title' do
-          expect(response_json['quests'][0]).to have_key 'title'
-        end
-
-        it ':reward' do
-          expect(response_json['quests'][0]).to have_key 'reward'
-        end
-      end
-
-      describe 'does not have keys' do
-        it ':created_at' do
-          expect(response_json['quests'][0]).not_to have_key 'created_at'
-        end
-        it ':requester' do
-          expect(response_json['quests'][0]).not_to have_key 'requester'
-        end
-        it ':description' do
-          expect(response_json['quests'][0]).not_to have_key 'description'
-        end
-      end
     end
   end
 
