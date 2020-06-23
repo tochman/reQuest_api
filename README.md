@@ -8,9 +8,9 @@ All endpoints are prefixed with `/api`
 
 #### GET /requests
 
-The get request will return all the requests in the database.
-Offerable is null if auth headers are not included, and false if the request already has an offer by the user. True otherwise.
-The format is:
+The get request will return all the *pending* requests in the database.
+Offerable is null if auth headers are not included, and false if the request is created by, or has an offer from, current user. True otherwise.
+The format is, in *descending* order by id, meaning newest first:
 
 ```
 {
@@ -23,6 +23,15 @@ The format is:
       category: "home",
       reward: 100
       offerable: true
+    },
+    {
+      id: 2,
+      title: "Titly",
+      description: "Lots of texts",
+      requester: "me@mail.com",
+      category: "it",
+      reward: 120
+      offerable: false
     }
   ]
 }
@@ -42,10 +51,16 @@ The format is:
     "status":"pending"
     "offers": [
       {
-        "email": "person1@example.com"
+        "id": 1,
+        "email": "person1@example.com",
+        "message": "hi I'd like to help you",
+        "status": "pending"
       },
       {
+        "id": 2,
         "email": "person2@example.com"
+        "message": "hey, saw you needed help, I can",
+        "status": "declined"
       }
     ]
   }
@@ -104,17 +119,32 @@ Read more [here](https://devise-token-auth.gitbook.io/devise-token-auth/).
 Headers as parameter needed for getting the request list of a specific user
 
 ```
-{"requests"=>
+{"requests": 
   [
-    {"id"=>289, "title"=>"I need  help with this", "reward"=>100,"status"=>"pending"},
-    {"id"=>288, "title"=>"I need  help with this", "reward"=>100,"status"=>"active"},
-    {"id"=>287, "title"=>"I need  help with this", "reward"=>100,"status"=>"completed"}
+    {
+      "id": 289, 
+      "title": "I need help",
+      "reward": 100,
+      "status": "pending"
+    },
+    {
+      "id": 288, 
+      "title": "I need help with this",
+      "reward": 100,
+      "status": "active"
+    },
+    {
+      "id": 287, 
+      "title": "I need  help with this",
+      "reward": 100,
+      "status": "completed"
+    }
   ]
 }
 ```
 
 ```
-{"message"=>"There are no reQuests to show"}
+{ "message": "There are no reQuests to show" }
 ```
 
 ### /karma_points
@@ -140,7 +170,7 @@ If ok, response is 200:
 Some other errors can happen as well, unauthorized 401 if headers are missing:
 
 ```
-{"errors": ["You need to sign in or sign up before continuing."]}
+{ "errors": ["You need to sign in or sign up before continuing."] }
 ```
 
 Or 422 if you try a forbidden action or have bad params:
@@ -189,15 +219,34 @@ Auth headers are required. Offer :id in endpoint.
 Headers as parameter needed for getting the quest list of a specific user
 
 ```
-{"quests"=>
-  [
-    {"id"=>289, "title"=>"I need  help with this", "reward"=>100},
-    {"id"=>288, "title"=>"I need  help with this", "reward"=>100},
-    {"id"=>287, "title"=>"I need  help with this", "reward"=>100}
-  ]
+{ "quests": [
+  {
+    "id": 289, 
+    "title": "I need help",
+    "description": "This is the thing I need help with",
+    "reward": 100,
+    "status": "pending",
+    "requester": "dudeinneedofhelp@yahoo.dk"
+  },
+  {
+    "id": 288, 
+    "title": "I need help with this",
+    "description": "Could anyone help me?",
+    "reward": 100,
+    "status": "active",
+    "requester": "girlinneedofhelp@yahoo.de"
+  },
+  {
+    "id": 287, 
+    "title": "I need  help with this",
+    "description": "This thing here",
+    "reward": 100,
+    "status": "completed",
+    "requester": "auntinneedofhelp@yahoo.nz"
+  }]
 }
 ```
 
 ```
-{"message"=>"There are no quests to show"}
+{"message": "There are no quests to show"}
 ```
