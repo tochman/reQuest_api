@@ -5,9 +5,9 @@ class Api::RequestsController < ApplicationController
     category = params[:category] || 'all'
 
     requests = if category == 'all'
-                 Request.all.order('id DESC')
+                 Request.where(status: "pending").order('id DESC')
                else
-                 Request.where(request_params)
+                 Request.where(*request_params, status: "pending").order('id DESC')
                end
 
     render json: requests, each_serializer: Request::IndexSerializer
