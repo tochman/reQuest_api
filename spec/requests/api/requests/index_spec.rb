@@ -6,6 +6,7 @@ RSpec.describe 'GET /request, can get all requests' do
   let(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
   let(:requester) { create(:user, email: 'requester@mail.com') }
   let!(:req) { 6.times { create(:request, requester: requester) } }
+  let!(:req4) { 6.times { create(:request, requester: requester, status: "active") } }
   let!(:req2) { 1.times { create(:request, requester: user) } }
   let!(:req3) { 3.times { create(:request, requester: requester, category: 'home') } }
 
@@ -25,31 +26,9 @@ RSpec.describe 'GET /request, can get all requests' do
         expect(response_json['requests'].length).to eq 10
       end
 
-      describe 'has keys' do
-        it ':id' do
-          expect(response_json['requests'][0]).to have_key 'id'
-        end
-
-        it ':title' do
-          expect(response_json['requests'][0]).to have_key 'title'
-        end
-
-        it ':description' do
-          expect(response_json['requests'][0]).to have_key 'description'
-        end
-
-        it ':category' do
-          expect(response_json['requests'][0]).to have_key 'category'
-        end
-
-        it ':requester' do
-          expect(response_json['requests'][0]).to have_key 'requester'
-        end
-      end
-
-      describe 'does not have keys' do
-        it ':created_at' do
-          expect(response_json['requests'][0]).not_to have_key 'created_at'
+      it 'only contains pending requests' do
+        response_json['requests'].each do |request|
+          expect(request.status).to eq "pending"
         end
       end
     end
