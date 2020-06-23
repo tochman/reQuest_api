@@ -4,12 +4,21 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
   let(:user) { create(:user) }
   let(:credentials) { user.create_new_auth_token }
   let(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
+  let(:valid_params) do
+    {
+      title: 'reQuest title',
+      description: 'You shall come and help me!',
+      reward: 100,
+      category: 'home',
+      coords: { long: 55.3, lat: 32.1 }
+    }
+  end
 
   describe 'with valid credentials and params' do
     before do
       post '/api/my_request/requests',
            headers: headers,
-           params: { title: 'reQuest title', description: 'You shall come and help me!', reward: 100 }
+           params: valid_params
       @quest = Request.last
     end
 
@@ -42,12 +51,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
     before do
       post '/api/my_request/requests',
            headers: headers,
-           params: {
-             title: 'reQuest title',
-             description: 'You shall come and help me!',
-             reward: 100,
-             category: 'home'
-           }
+           params: valid_params
       @quest = Request.last
     end
 
@@ -60,12 +64,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
     before do
       post '/api/my_request/requests',
            headers: headers,
-           params: {
-             title: 'reQuest title',
-             description: 'You shall come and help me!',
-             reward: 100,
-             category: 'home'
-           }
+           params: valid_params
       @quest = Request.last
     end
 
@@ -80,7 +79,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
     describe 'with no credentials and valid params' do
       before do
         post '/api/my_request/requests',
-             params: { title: 'reQuest title', description: 'You shall come and help me!', reward: 100 }
+             params: valid_params
       end
 
       it 'has 401 response' do
@@ -113,7 +112,8 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
              params: {
                title: 'reQuestus title',
                description: 'You shall come and help me!',
-               reward: 200
+               reward: 200,
+               coords: { long: 55.3, lat: 32.1 }
              }
       end
       it 'has 422 response' do
@@ -133,17 +133,58 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
                title: 'reQuest title',
                description: 'You shall come and help me!',
                reward: 100,
-               category: 'car'
+               category: 'car',
+               coords: { long: 55.3, lat: 32.1 }
              }
         @quest = Request.last
       end
-      
+
       it 'has 422 response' do
         expect(response).to have_http_status 422
       end
-  
+
       it 'responds with an error message' do
         expect(response_json['message']).to eq "'car' is not a valid category"
+      end
+    end
+
+    describe 'no location is provided' do
+      before do
+        post '/api/my_request/requests',
+             headers: headers,
+             params: {
+               title: 'reQuestus title',
+               description: 'You shall come and help me!',
+               reward: 200
+             }
+      end
+      it 'has 422 response' do
+        expect(response).to have_http_status 422
+      end
+
+      it 'responds with an error message' do
+        expect(response_json['message']).to eq "Location can't be blank"
+      end
+    end
+
+    describe 'bad location is provided' do
+      before do
+        post '/api/my_request/requests',
+             headers: headers,
+             params: {
+               title: 'reQuestus title',
+               description: 'You shall come and help me!',
+               reward: 200,
+               coords: { long: 99.3, lat: -199.1 }
+             }
+      end
+
+      it 'has 422 response' do
+        expect(response).to have_http_status 422
+      end
+
+      it 'responds with an error message' do
+        expect(response_json['message']).to eq "'99.3' is not a valid long"
       end
     end
   end
