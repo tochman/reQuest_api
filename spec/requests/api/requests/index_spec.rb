@@ -22,7 +22,7 @@ RSpec.describe 'GET /request, can get all requests' do
         expect(response).to have_http_status 200
       end
 
-      it 'contains all the requests' do
+      it 'contains all the pending requests' do
         expect(response_json['requests'].length).to eq 10
       end
 
