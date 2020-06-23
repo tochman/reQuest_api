@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :offer do
-    message { 'iI want  to help' }
+    message { 'I want  to help' }
     association :helper, factory: :user
     association :request
     status { 'pending' }
