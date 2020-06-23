@@ -19,6 +19,17 @@ RSpec.describe Request, type: :model do
     it { is_expected.to validate_presence_of :category }
 
     it { is_expected.to validate_numericality_of(:reward).is_greater_than_or_equal_to(0) }
+    it {
+      is_expected.to validate_numericality_of(:long)
+        .is_greater_than_or_equal_to(-180)
+        .is_less_than_or_equal_to(180)
+    }
+
+    it {
+      is_expected.to validate_numericality_of(:lat)
+        .is_greater_than_or_equal_to(-90)
+        .is_less_than_or_equal_to(90)
+    }
 
     describe 'prevents requester from updating request status to completed while pending' do
       subject { create(:request, requester: user, status: 'pending') }
