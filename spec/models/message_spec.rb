@@ -4,11 +4,11 @@ RSpec.describe Message, type: :model do
   describe 'database table' do
     it { is_expected.to have_db_column :content }
     it { is_expected.to have_db_column :sender_id }
-    it { is_expected.to have_db_column :conversation }
+    it { is_expected.to have_db_column :conversation_id }
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of :content}
+    it { is_expected.to validate_presence_of :content }
   end
 
   describe 'relations' do

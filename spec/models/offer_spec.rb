@@ -11,6 +11,7 @@ RSpec.describe Offer, type: :model do
   describe 'relations' do
     it { is_expected.to belong_to :helper }
     it { is_expected.to belong_to :request }
+    it { is_expected.to have_one :conversation }
   end
 
   describe 'factory' do

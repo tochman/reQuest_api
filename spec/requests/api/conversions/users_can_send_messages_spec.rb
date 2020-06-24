@@ -14,7 +14,56 @@ RSpec.describe 'POST /message users can post messages' do
   let(:request) { create(:request, requester: requester) }
   let(:offer) { create(:offer, request: request, helper: helper) }
 
-  let(:message) { create(:message, conversation: offer.conversation, sender) }
+  let(:message) { create(:message, conversation: offer.conversation, sender: helper) }
 
+  describe 'successfully as the requester' do
+    before do
+      post '/api/messages', headers: req_headers, params: { offer_id: offer.id, content: "message content" }
+    end
 
+    it 'gives a success status' do
+      expect(request).to have_http_status 201
+    end
+
+    it 'creates a message based on the params' do
+      offer.reload
+      expect(offer.conversation.messages.last['content']).to eq "message content"
+    end
+  end
+
+  describe 'successfully as the helper' do
+    before do
+      post '/api/messages', headers: helper_headers, params: { offer_id: offer.id, content: "message content" }
+    end
+
+    it 'gives a success status' do
+      expect(request).to have_http_status 201
+    end
+  end
+
+  describe 'unsuccessfully' do
+    describe 'without content' do
+      before do
+        post '/api/messages', headers: helper_headers, params: { offer_id: offer.id }
+      end
+    end
+
+    describe 'without offer_id' do
+      before do
+        post '/api/messages', headers: helper_headers, params: { content: "message content" }
+      end
+    end
+
+    describe 'unauthorized' do
+      before do
+        post '/api/messages', headers: third_user_headers, params: { offer_id: offer.id, content: "message content" }
+      end
+    end
+
+    describe 'unauthenticated' do
+      before do
+        post '/api/messages', params: { offer_id: offer.id, content: "message content" }
+      end
+    end
+  end
 end

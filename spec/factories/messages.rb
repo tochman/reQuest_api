@@ -2,6 +2,6 @@ FactoryBot.define do
   factory :message do
     conversation
     content { "MyText" }
-    user
+    association :sender, factory: :user
   end
 end
