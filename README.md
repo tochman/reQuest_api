@@ -54,11 +54,20 @@ The format is, in *descending* order by id, meaning newest first:
         "id": 1,
         "email": "person1@example.com",
         "status": "pending"
+        "conversation: {
+          "messages": [
+            {
+              "content": "asd",
+              "me": true
+            }
+          ]
+        }
       },
       {
         "id": 2,
         "email": "person2@example.com"
         "status": "declined"
+        "conversation": {...}
       }
     ]
   }

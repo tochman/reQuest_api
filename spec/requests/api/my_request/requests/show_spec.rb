@@ -5,12 +5,17 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
   let(:credentials) { requester.create_new_auth_token }
   let(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
   let(:my_request) { create(:request, requester: requester) }
-  let(:user_1) { create(:user) }
+  let(:helper) { create(:user) }
+  let(:helper_credentials) { helper.create_new_auth_token }
+  let(:helper_headers) { { HTTP_ACCEPT: 'application/json' }.merge!(helper_credentials) }
   let(:user_2) { create(:user) }
-  let(:not_my_request) { create(:request, requester: user_1) }
+  let(:not_my_request) { create(:request, requester: helper) }
 
-  let!(:offer_1) { create(:offer, helper: user_1, request: my_request) }
+  let!(:offer_1) { create(:offer, helper: helper, request: my_request) }
   let!(:offer_2) { create(:offer, helper: user_2, request: my_request) }
+
+  let!(:message_1) { offer_1.conversation.messages.create(content: "message1", sender: requester) }
+  let!(:message_2) { offer_1.conversation.messages.create(content: "message2", sender: helper) }
 
   describe 'with valid credentials and params' do
     before do
@@ -28,6 +33,22 @@ RSpec.describe 'GET /api/my_request/requests/:id', type: :request do
 
     it 'responds with all offers associated with the reQuest' do
       expect(response_json['request']['offers'].length).to eq 2
+    end
+
+    it 'these offers have a conversation attached to them' do
+      expect(response_json['request']['offers'].first).to have_key 'conversation'
+    end
+
+    it 'in these conversation there are messages that show content' do
+      expect(response_json['request']['offers'].first['conversation']['messages'].length).to eq 2
+    end
+
+    it 'and you can see if you are the sender of the message' do
+      expect(response_json['request']['offers'].first['conversation']['messages'].first['me']).to eq true
+    end
+
+    it 'and you can see if you are not the sender of the message' do
+      expect(response_json['request']['offers'].first['conversation']['messages'].last['me']).to eq false
     end
   end
 
