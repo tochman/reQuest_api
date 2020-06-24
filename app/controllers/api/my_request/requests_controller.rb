@@ -4,8 +4,6 @@ class Api::MyRequest::RequestsController < ApplicationController
   before_action :authenticate_user!, only: %i[index show create update]
   before_action :get_request, only: %i[update show]
   before_action :karma?, only: [:create]
-  rescue_from ArgumentError, with: :render_error_message
-  rescue_from StandardError, with: :render_error_message
 
   def index
     requests = Request.where(requester: current_user).order('id DESC')
@@ -50,16 +48,6 @@ class Api::MyRequest::RequestsController < ApplicationController
     unless current_user.karma_points - create_params[:reward].to_i >= 0
       render json: { message: 'You dont have enough karma points' }, status: 422
     end
-  end
-
-  def render_error_message(errors)
-    error_message = if !errors.class.method_defined?(:full_messages)
-                      errors.message
-                    else
-                      errors.full_messages.to_sentence
-                    end
-
-    render json: { message: error_message }, status: 422
   end
 
   def show_params
