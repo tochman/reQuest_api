@@ -53,13 +53,11 @@ The format is, in *descending* order by id, meaning newest first:
       {
         "id": 1,
         "email": "person1@example.com",
-        "message": "hi I'd like to help you",
         "status": "pending"
       },
       {
         "id": 2,
         "email": "person2@example.com"
-        "message": "hey, saw you needed help, I can",
         "status": "declined"
       }
     ]
@@ -207,7 +205,7 @@ Auth headers are required. Offer :id in endpoint.
     helper_id: 2,
     request_id: 3,
     status: "pending", (OR "declined", OR "accepted",)
-    message: "Your offer is pending" (OR "Your offer has been accepted" OR "Your offer has been declined")
+    status_message: "Your offer is pending" (OR "Your offer has been accepted" OR "Your offer has been declined")
   }
 }
 ```
