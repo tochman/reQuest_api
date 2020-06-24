@@ -16,6 +16,7 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
             headers: requester_headers,
             params: { activity: 'accepted' }
         request.reload
+        offer.reload
       end
 
       it 'has 200 response' do
@@ -28,6 +29,10 @@ RSpec.describe 'PUT /api/offers/:id', type: :request do
 
       it 'sets the status of the request to "active"' do
         expect(request.status).to eq "active"
+      end
+
+      it 'sets the status of the offer to "accepted"' do
+        expect(offer.status).to eq "accepted"
       end
 
       it 'sets the helper of the request to be the one that offered help' do
