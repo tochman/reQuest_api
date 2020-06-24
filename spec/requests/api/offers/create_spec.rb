@@ -37,8 +37,12 @@ RSpec.describe 'POST /offers, user can offer to help' do
         expect(@offer.request).to eq request
       end
 
-      it 'the message' do
-        expect(@offer.message).to eq 'Hi, I can help!'
+      it 'the message as the first message of the conversation' do
+        expect(@offer.conversation.messages.first.content).to eq 'Hi, I can help!'
+      end
+
+      it 'the helper as the sender of the first message of the conversation' do
+        expect(@offer.conversation.messages.first.sender).to eq helper
       end
     end
   end

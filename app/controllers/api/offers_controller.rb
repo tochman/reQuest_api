@@ -7,6 +7,7 @@ class Api::OffersController < ApplicationController
   def create
     offer = current_user.offers.create(offer_parameters)
     if offer.persisted?
+      offer.append_message(params[:message]) if params[:message]
       render json: { message: 'Your offer has been sent!' }
     else
       render json: { message: offer.errors.full_messages.join('. ') }, status: 422
@@ -51,6 +52,6 @@ class Api::OffersController < ApplicationController
   end
 
   def offer_parameters
-    params.permit(:message, :request_id)
+    params.permit(:request_id)
   end
 end
