@@ -11,6 +11,10 @@ class Offer < ApplicationRecord
   before_update :update_request_status
   after_create :attach_conversation
 
+  def append_message(message)
+    conversation.messages.create(content: message, sender: helper)
+  end
+
   private
 
   def validate_offer_creator

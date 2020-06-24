@@ -8,6 +8,6 @@ class Message < ApplicationRecord
 
   def validate_user_is_authorized
     is_valid_user = sender == conversation.offer.helper || sender == conversation.offer.request.requester
-    raise StandardError, "You are not authorized to do this!" unless is_valid_user
+    raise StandardError, 'You are not authorized to do this!' unless is_valid_user
   end
 end

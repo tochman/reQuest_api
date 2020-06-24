@@ -2,6 +2,6 @@ FactoryBot.define do
   factory :message do
     conversation
     content { "MyText" }
-    association :sender, factory: :user
+    sender { conversation.offer.helper }
   end
 end
