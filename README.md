@@ -248,3 +248,14 @@ Headers as parameter needed for getting the quest list of a specific user
 ```
 {"message": "There are no quests to show"}
 ```
+
+### /messages
+#### POST /messages
+
+Takes auth headers and params: :offer_id, :content="String".
+Responds with 201 header, no body if ok.
+If no headers you get devise auth error.
+If you are not requester or helper, you get 422 { message: "You are not authorized" }
+If :content is missing you get 422 { message: "Content can't be blank" }
+If :offer_id is not excluded you get 422 { message: "Some error message" }
+
