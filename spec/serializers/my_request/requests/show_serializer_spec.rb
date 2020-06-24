@@ -31,7 +31,8 @@ RSpec.describe MyRequest::Request::ShowSerializer, type: :serializer do
   end
 
   it 'conversation has a specific structure' do
-    expect(subject[''])
+    expected_keys = %w[me content]
+    expect(subject['request']['offers'].first['conversation'].keys).to match expected_keys
   end
 
   it 'has a specific structure' do
@@ -45,7 +46,13 @@ RSpec.describe MyRequest::Request::ShowSerializer, type: :serializer do
         'offers' => a_collection_including({
           'id' => an_instance_of(Integer),
           'email' => a_string_including('@'),
-          'status' => an_instance_of(String)
+          'status' => an_instance_of(String),
+          'conversation' => {
+            'messages' => a_collection_including({
+              'content' => an_instance_of(String),
+              'me' => an_instance_of(TrueClass) || an_instance_of(FalseClass)
+            })
+          }
         })
       }
     )
