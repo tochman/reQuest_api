@@ -53,13 +53,11 @@ The format is, in *descending* order by id, meaning newest first:
       {
         "id": 1,
         "email": "person1@example.com",
-        "message": "hi I'd like to help you",
         "status": "pending"
       },
       {
         "id": 2,
         "email": "person2@example.com"
-        "message": "hey, saw you needed help, I can",
         "status": "declined"
       }
     ]
@@ -207,7 +205,7 @@ Auth headers are required. Offer :id in endpoint.
     helper_id: 2,
     request_id: 3,
     status: "pending", (OR "declined", OR "accepted",)
-    message: "Your offer is pending" (OR "Your offer has been accepted" OR "Your offer has been declined")
+    status_message: "Your offer is pending" (OR "Your offer has been accepted" OR "Your offer has been declined")
   }
 }
 ```
@@ -250,3 +248,14 @@ Headers as parameter needed for getting the quest list of a specific user
 ```
 {"message": "There are no quests to show"}
 ```
+
+### /messages
+#### POST /messages
+
+Takes auth headers and params: :offer_id, :content="String".
+Responds with 201 header, no body if ok.
+If no headers you get devise auth error.
+If you are not requester or helper, you get 422 { message: "You are not authorized" }
+If :content is missing you get 422 { message: "Content can't be blank" }
+If :offer_id is not excluded you get 422 { message: "Some error message" }
+

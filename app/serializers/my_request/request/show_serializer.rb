@@ -7,7 +7,7 @@ class MyRequest::Request::ShowSerializer < ActiveModel::Serializer
     offers_response = []
     object.offers.each do |offer|
       helper = User.find(offer.helper_id)
-      offers_response << { id: offer.id, email: helper.email, message: offer.message, status: offer.status }
+      offers_response << { id: offer.id, email: helper.email, status: offer.status }
     end
 
     offers_response
