@@ -9,7 +9,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
       title: 'reQuest title',
       description: 'You shall come and help me!',
       reward: 100,
-      coords: { long: 55.3, lat: 32.1 }
+      coordinates: { long: 55.3, lat: 32.1 }
     }
   end
 
@@ -94,7 +94,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
       before do
         post '/api/my_request/requests',
              headers: headers,
-             params: { title: 'reQuestus title', coords: { long: 1.1, lat: 1.1 } }
+             params: { title: 'reQuestus title', coordinates: { long: 1.1, lat: 1.1 } }
       end
 
       it 'has 422 response' do
@@ -114,7 +114,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
                title: 'reQuestus title',
                description: 'You shall come and help me!',
                reward: 200,
-               coords: { long: 55.3, lat: 32.1 }
+               coordinates: { long: 55.3, lat: 32.1 }
              }
       end
       it 'has 422 response' do
@@ -135,7 +135,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
                description: 'You shall come and help me!',
                reward: 100,
                category: 'car',
-               coords: { long: 55.3, lat: 32.1 }
+               coordinates: { long: 55.3, lat: 32.1 }
              }
         @quest = Request.last
       end
@@ -164,7 +164,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
       end
 
       it 'responds with an error message' do
-        expect(response_json['message']).to eq "param is missing or the value is empty: coords"
+        expect(response_json['message']).to eq "param is missing or the value is empty: coordinates"
       end
     end
 
@@ -176,7 +176,7 @@ RSpec.describe 'POST /api/my_request/requests', type: :request do
                title: 'reQuestus title',
                description: 'You shall come and help me!',
                reward: 100,
-               coords: { long: 99.3, lat: -199.1 }
+               coordinates: { long: 99.3, lat: -199.1 }
              }
       end
 
