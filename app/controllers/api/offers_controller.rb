@@ -52,6 +52,6 @@ class Api::OffersController < ApplicationController
   end
 
   def offer_parameters
-    params.permit(:message, :request_id)
+    params.permit(:request_id)
   end
 end

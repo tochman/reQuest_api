@@ -4,7 +4,7 @@ RSpec.describe MyRequest::Request::ShowSerializer, type: :serializer do
   let(:user) { create(:user) }
   let(:request) { create(:request) }
   let!(:offer) { create(:offer, request: request) }
-  let!(:message) { offer.conversation.messages.create(content: 'Hello', sender: user) }
+  let!(:message) { offer.append_message('Hi, I can help') }
   let(:serialization) do
     ActiveModelSerializers::SerializableResource.new(
       Request.last,
@@ -30,6 +30,10 @@ RSpec.describe MyRequest::Request::ShowSerializer, type: :serializer do
     expect(subject['request']['offers'].first.keys).to match expected_keys
   end
 
+  it 'conversation has a specific structure' do
+    expect(subject[''])
+  end
+
   it 'has a specific structure' do
     expect(subject).to match(
       'request' => {
@@ -41,11 +45,7 @@ RSpec.describe MyRequest::Request::ShowSerializer, type: :serializer do
         'offers' => a_collection_including({
           'id' => an_instance_of(Integer),
           'email' => a_string_including('@'),
-          'status' => an_instance_of(String),
-          'conversation' => a_collection_including({
-            "content": an_instance_of(String),
-            "sender": an_instance_of(Integer)
-          })
+          'status' => an_instance_of(String)
         })
       }
     )
