@@ -18,6 +18,6 @@ class Request::IndexSerializer < ActiveModel::Serializer
   def distance
     return nil if instance_options[:coordinates].nil?
 
-    Haversine.distance(instance_options[:coordinates], [object.lat, object.long]).to_km
+    Haversine.distance(instance_options[:coordinates], [object.lat, object.long]).to_km.round(1)
   end
 end
