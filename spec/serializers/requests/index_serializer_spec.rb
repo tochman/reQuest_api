@@ -7,6 +7,7 @@ RSpec.describe Request::IndexSerializer, type: :serializer do
     ActiveModelSerializers::SerializableResource.new(
       Request.all,
       each_serializer: described_class,
+      coordinates: [2.2, 5.5],
       scope: user,
       scope_name: :current_user
     )
