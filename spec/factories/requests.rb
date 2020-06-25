@@ -8,5 +8,7 @@ FactoryBot.define do
     status { 'pending' }
     category { 'education' }
     association :requester, factory: :user
+    long { 55.5 }
+    lat { 33.3 }
   end
 end

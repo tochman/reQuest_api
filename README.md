@@ -85,6 +85,8 @@ Targeting a request that you're not the owner of, renders 422 and error message:
 To create a new request you need to include authentication headers.
 You also need to provide :title=String and :description=String, and may provide category.
 Valid categories are "other", "education", "home", "it", "sport", "vehicles". Other is default if none is provided.
+You need to provide the parameter coords: { long: 55.3, lat, 33.1 }. Both are floats.
+Long is valid between -180 and +180, lat is valid between -90 and +90.
 The response will be a 200 with a message and the id of the created resource.
 
 ```

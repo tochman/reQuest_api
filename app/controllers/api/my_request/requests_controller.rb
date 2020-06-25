@@ -55,7 +55,8 @@ class Api::MyRequest::RequestsController < ApplicationController
   end
 
   def create_params
-    params.permit(:title, :description, :reward, :category)
+    coords = params.require(:coordinates).permit(:lat, :long)
+    params.permit(:title, :description, :reward, :category).merge!(coords)
   end
 
   def update_params
