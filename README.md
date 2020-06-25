@@ -10,6 +10,7 @@ All endpoints are prefixed with `/api`
 
 The get request will return all the *pending* requests in the database.
 Offerable is null if auth headers are not included, and false if the request is created by, or has an offer from, current user. True otherwise.
+If params: { coordinates: { lat: 1.4, long: 4.2 } } are included and geovalid, the distance from request coordinates is served as a float in km, otherwise distance: nil.
 The format is, in *descending* order by id, meaning newest first:
 
 ```
@@ -21,8 +22,9 @@ The format is, in *descending* order by id, meaning newest first:
       description: "Lots of text",
       requester: "requester@mail.com",
       category: "home",
-      reward: 100
-      offerable: true
+      reward: 100,
+      offerable: true,
+      distance: 1.2
     },
     {
       id: 2,
@@ -32,6 +34,7 @@ The format is, in *descending* order by id, meaning newest first:
       category: "it",
       reward: 120
       offerable: false
+      distance: 3.1
     }
   ]
 }

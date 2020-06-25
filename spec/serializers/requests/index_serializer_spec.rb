@@ -7,6 +7,7 @@ RSpec.describe Request::IndexSerializer, type: :serializer do
     ActiveModelSerializers::SerializableResource.new(
       Request.all,
       each_serializer: described_class,
+      coordinates: [2.2, 5.5],
       scope: user,
       scope_name: :current_user
     )
@@ -19,7 +20,7 @@ RSpec.describe Request::IndexSerializer, type: :serializer do
   end
 
   it 'contains only id, title, description, requester, offerable reward and category' do
-    expected_keys = %w[id title description requester offerable reward category]
+    expected_keys = %w[id title description requester offerable reward category distance]
     expect(subject["requests"].first.keys).to match expected_keys
   end
 
@@ -33,6 +34,7 @@ RSpec.describe Request::IndexSerializer, type: :serializer do
         "reward" => an_instance_of(Integer),
         "offerable" => (an_instance_of(TrueClass) || an_instance_of(FalseClass) || an_instance_of(NilClass)),
         "category" => an_instance_of(String),
+        "distance" => an_instance_of(Float)
       })
     )
   end
