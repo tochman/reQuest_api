@@ -11,7 +11,7 @@ RSpec.describe 'GET /api/my_request/quests/:id', type: :request do
 
   let(:not_my_quest) { create(:request) }
 
-  let!(:offer) { create(:offer, helper: helper, request: my_request) }
+  let!(:offer) { create(:offer, helper: helper, request: my_quest ) }
 
   let!(:message_1) { offer.conversation.messages.create(content: "message1", sender: requester) }
   let!(:message_2) { offer.conversation.messages.create(content: "message2", sender: helper) }
@@ -31,21 +31,21 @@ RSpec.describe 'GET /api/my_request/quests/:id', type: :request do
     end
 
     it 'the conversation has messages that show content' do
-      expect(response_json['quest']['offers'].first['conversation']['messages'].length).to eq 2
+      expect(response_json['quest']['offer']['conversation']['messages'].length).to eq 2
     end
 
     it 'and you can see if you are the sender of the message' do
-      expect(response_json['quest']['offers'].first['conversation']['messages'].first['me']).to eq false
+      expect(response_json['quest']['offer']['conversation']['messages'].first['me']).to eq false
     end
 
     it 'and you can see if you are not the sender of the message' do
-      expect(response_json['quest']['offers'].first['conversation']['messages'].last['me']).to eq true
+      expect(response_json['quest']['offer']['conversation']['messages'].last['me']).to eq true
     end
   end
 
   describe 'without valid credentials' do
     before do
-      get "/api/my_request/requests/#{my_request.id}"
+      get "/api/my_request/quests/#{my_quest.id}"
     end
 
     it 'has 401 status' do
@@ -59,7 +59,7 @@ RSpec.describe 'GET /api/my_request/quests/:id', type: :request do
 
   describe "targeting someone else's quest" do
     before do
-      get "/api/my_request/requests/#{not_my_quest.id}",
+      get "/api/my_request/quests/#{not_my_quest.id}",
           headers: helper_headers
     end
 
@@ -68,7 +68,7 @@ RSpec.describe 'GET /api/my_request/quests/:id', type: :request do
     end
 
     it 'responds with error message' do
-      expect(response_json['message']).to eq 'This is not your quest'
+      expect(response_json['message']).to eq 'This is not your Quest'
     end
   end
 end

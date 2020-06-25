@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resources :requests, only: %i[index], constraints: { format: 'json' }
     namespace :my_request do
       resources :requests, only: %i[index show create update], constraints: { format: 'json' }
-      resources :quests, only: %i[index], constraints: { format: 'json' }
+      resources :quests, only: %i[index show], constraints: { format: 'json' }
     end
   end
 end
