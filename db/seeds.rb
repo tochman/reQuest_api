@@ -2,7 +2,7 @@
 
 # Create Users
 5.times do |n|
-  create(:user, email: "user#{n}@mail.com", password: "password#{n}")
+  User.create( email: "user#{n}@mail.com", password: "password#{n}" )
 end
 
 # Create requests
@@ -30,10 +30,11 @@ days = %w[Monday Tuesday Wednesday Thursday Friday Saturday Sunday tomorrow asap
 users = User.all
 50.times do
   users.sample.requests.create(title: "#{title_part_1.sample} #{title_part_2.sample}",
-                               description: "#{description_part_1.sample} Will #{days.sample} work for you? #{Faker::Lorem.paragraph(number: rand(0..3))}",
+                               description: "#{description_part_1.sample} Will #{days.sample} work for you? #{Faker::Lorem.paragraphs(number: rand(0..3)).join(" ")}",
                                reward: rand(0..10),
                                long: 12 + rand * 6,
-                               lat: 57.7 + rand * 4)
+                               lat: 57.7 + rand * 4,
+                               category: Request.categories.keys.sample)
 end
 requests = Request.all
 # Create Offers
