@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2020_06_24_151907) do
 
   create_table "messages", force: :cascade do |t|
     t.bigint "conversation_id", null: false
-    t.text "content"
+    t.text "content", null: false
     t.bigint "sender_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -51,10 +51,10 @@ ActiveRecord::Schema.define(version: 2020_06_24_151907) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "reward"
     t.integer "status", default: 0
-    t.integer "category", default: 0
     t.bigint "helper_id"
-    t.float "long"
-    t.float "lat"
+    t.integer "category", default: 0
+    t.float "long", null: false
+    t.float "lat", null: false
     t.index ["helper_id"], name: "index_requests_on_helper_id"
     t.index ["requester_id"], name: "index_requests_on_requester_id"
   end
