@@ -16,7 +16,7 @@ class Api::RequestsController < ApplicationController
   private
 
   def request_params
-    { category: params[:category] }
+    params.permit(:category)
   end
 
   def check_coordinates

@@ -29,6 +29,17 @@ RSpec.describe 'GET /api/requests, distance to request is displayed' do
     end
   end
 
+  describe 'with location parameters and category' do
+    before do
+      get '/api/requests',
+      params: { coordinates: { long: 14.48, lat: 61.0 }, category: 'education' }
+    end
+
+    it 'gives the requests it should' do
+      expect(response_json['requests'].length).to eq 3
+    end
+  end
+
   describe 'without location parameters' do
     before do
       get '/api/requests'
