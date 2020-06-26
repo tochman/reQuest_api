@@ -263,6 +263,36 @@ Headers as parameter needed for getting the quest list of a specific user
 {"message": "There are no quests to show"}
 ```
 
+#### GET /my_request/quest/:id
+Returns a request where the user has a non-declined offer.
+Errors are same as show request errors, except "This is not your Quest" one.
+Good response is 200:
+```
+{"quest": 
+  {
+    "id": 169,
+    "title": "I need  help with this",
+    "description": "This is what I need help with",
+    "email": "salvador@konopelskichristiansen.co",
+    "reward": 100,
+    "status": "pending",
+    "offer": {
+      "id": 151, 
+      "status": 
+      "pending", 
+      "conversation": {
+        "messages": [
+          {
+            "content": "Hi, I can help", 
+            "me": true
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
 ### /messages
 #### POST /messages
 
