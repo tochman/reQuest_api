@@ -29,6 +29,12 @@ RSpec.describe 'POST /offers/:offer_id/message users can post messages' do
       offer.reload
       expect(offer.conversation.messages.last['content']).to eq "message content"
     end
+
+    # it 'dispatches a websocket message' do
+    #   expect {
+    #     3.times { ActionCable.server.broadcast "offer_conversation_#{offer.id}", text: 'Hi!' }
+    #   }.to have_broadcasted_to("offer_conversation_#{offer.id}").at_least(2).times
+    # end
   end
 
   describe 'successfully as the helper' do

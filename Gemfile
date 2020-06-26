@@ -13,6 +13,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'devise_token_auth'
 gem 'active_model_serializers'
 gem 'haversine'
+gem 'redis'
 
 group :development, :test do
   gem 'pry-byebug'
