@@ -3,8 +3,9 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth'
   namespace :api do
-    resources :messages, only: [:create]
-    resources :offers, only: %i[create show update]
+    resources :offers, only: %i[create show update] do
+      resources :messages, only: [:create]
+    end
     resources :karma_points, only: [:index], constraints: { format: 'json' }
     resources :requests, only: %i[index], constraints: { format: 'json' }
     namespace :my_request do
