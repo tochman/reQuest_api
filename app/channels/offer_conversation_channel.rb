@@ -12,11 +12,12 @@ class OfferConversationChannel < ApplicationCable::Channel
   private
 
   def offer_identifier
-    if params[:data][:offer_id]
-      "offer_conversation_#{params[:data][:offer_id]}"
+    if params[:room][:offer_id]
+      channel = "offer_conversation_#{params[:room][:offer_id]}"
     else
       connection.transmit identifier: params, message: 'No params specified.'
-      reject
+      reject && return
     end
+    channel
   end
 end

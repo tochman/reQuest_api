@@ -8,7 +8,7 @@ RSpec.describe OfferConversationChannel, type: :channel do
     before { stub_connection current_user: user }
     describe 'valid parameters' do
       before do
-        subscribe(data: { offer_id: 234 })
+        subscribe(room: { offer_id: 234 })
       end
 
       it {
@@ -23,7 +23,7 @@ RSpec.describe OfferConversationChannel, type: :channel do
     describe 'without valid params' do
 
       before do
-        subscribe(data: {})
+        subscribe(room: {})
       end
 
       it { expect(subscription).to be_rejected }
