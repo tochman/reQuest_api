@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OfferConversationChannel < ApplicationCable::Channel
   def subscribed
     stream_from offer_identifier
@@ -10,7 +12,11 @@ class OfferConversationChannel < ApplicationCable::Channel
   private
 
   def offer_identifier
-    identifier = params[:data][:offer_id]
-    "offer_conversation_#{identifier}"
+    if params[:data][:offer_id]
+      "offer_conversation_#{params[:data][:offer_id]}"
+    else
+      connection.transmit identifier: params, message: 'No params specified.'
+      reject
+    end
   end
 end

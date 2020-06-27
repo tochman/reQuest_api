@@ -3,7 +3,7 @@ class Message < ApplicationRecord
   belongs_to :sender, class_name: 'User'
   validates_presence_of :content
   before_create :validate_user_is_authorized
-  after_create :broadcast
+  after_save :broadcast
 
   private
 

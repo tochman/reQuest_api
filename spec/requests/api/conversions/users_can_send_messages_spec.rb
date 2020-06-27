@@ -10,7 +10,7 @@ RSpec.describe 'POST /offers/:offer_id/message users can post messages' do
   let(:third_user) { create(:user) }
   let(:third_user_credentials) { third_user.create_new_auth_token }
   let(:third_user_headers) { { HTTP_ACCEPT: 'application/json' }.merge!(third_user_credentials) }
-  
+
   let(:request) { create(:request, requester: requester) }
   let(:offer) { create(:offer, request: request, helper: helper) }
 
@@ -30,11 +30,11 @@ RSpec.describe 'POST /offers/:offer_id/message users can post messages' do
       expect(offer.conversation.messages.last['content']).to eq "message content"
     end
 
-    # it 'dispatches a websocket message' do
-    #   expect {
-    #     3.times { ActionCable.server.broadcast "offer_conversation_#{offer.id}", text: 'Hi!' }
-    #   }.to have_broadcasted_to("offer_conversation_#{offer.id}").at_least(2).times
-    # end
+    it 'dispatches a websocket message' do
+      expect(
+        ActionCable.server.worker_pool.executor.worker_task_completed
+      ).to eq 1
+    end
   end
 
   describe 'successfully as the helper' do
