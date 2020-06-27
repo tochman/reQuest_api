@@ -2,21 +2,21 @@
 
 # Create Users
 5.times do |n|
-  User.create( email: "user#{n}@mail.com", password: "password#{n}" )
+  User.create(email: "user#{n}@mail.com", password: "password#{n}")
 end
 
 # Create requests
 title_part_1 = ['I need help with', 'Could someone help me with', 'Requesting assist with']
 title_part_2 = ['changing tyres',
-                'moving a body',
-                'install washing machine',
-                'football penalites practice',
+                'grocery shopping',
+                'installing washing machine',
+                'football penalties practice',
                 'learning Chinese',
                 'fortifying the western front',
-                'building storm barricades',
-                'becoming Batman',
+                'washing and changing curtains',
+                'painting fences',
                 'learning to drive an excavator',
-                'erradicating the rats in my house',
+                'eradicating the rats in my house',
                 'my javelin technique',
                 'moving a big rock, like really big']
 
@@ -30,10 +30,10 @@ days = %w[Monday Tuesday Wednesday Thursday Friday Saturday Sunday tomorrow asap
 users = User.all
 50.times do
   users.sample.requests.create(title: "#{title_part_1.sample} #{title_part_2.sample}",
-                               description: "#{description_part_1.sample} Will #{days.sample} work for you? #{Faker::Lorem.paragraphs(number: rand(0..3)).join(" ")}",
+                               description: "#{description_part_1.sample} Will #{days.sample} work for you? #{Faker::Lorem.paragraphs(number: rand(0..3)).join(' ')}",
                                reward: rand(0..10),
-                               long: 12 + rand * 6,
-                               lat: 57.7 + rand * 4,
+                               long: 17.949786 + rand * 0.1,
+                               lat: 59.402698 + rand * 0.1,
                                category: Request.categories.keys.sample)
 end
 requests = Request.all
