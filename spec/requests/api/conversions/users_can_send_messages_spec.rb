@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'POST /offers/:offer_id/message users can post messages' do
   let(:requester) { create(:user, email: 'requester@mail.com') }
   let(:req_creds) { requester.create_new_auth_token }
@@ -18,7 +20,7 @@ RSpec.describe 'POST /offers/:offer_id/message users can post messages' do
 
   describe 'successfully as the requester' do
     before do
-      post "/api/offers/#{offer.id}/messages", headers: req_headers, params: { content: "message content" }
+      post "/api/offers/#{offer.id}/messages", headers: req_headers, params: { content: 'message content' }
     end
 
     it 'gives a success status' do
@@ -27,7 +29,7 @@ RSpec.describe 'POST /offers/:offer_id/message users can post messages' do
 
     it 'creates a message based on the params' do
       offer.reload
-      expect(offer.conversation.messages.last['content']).to eq "message content"
+      expect(offer.conversation.messages.last['content']).to eq 'message content'
     end
 
     it 'dispatches a websocket message' do
@@ -39,7 +41,7 @@ RSpec.describe 'POST /offers/:offer_id/message users can post messages' do
 
   describe 'successfully as the helper' do
     before do
-      post "/api/offers/#{offer.id}/messages", headers: helper_headers, params: { content: "message content" }
+      post "/api/offers/#{offer.id}/messages", headers: helper_headers, params: { content: 'message content' }
     end
 
     it 'gives a success status' do
@@ -48,7 +50,7 @@ RSpec.describe 'POST /offers/:offer_id/message users can post messages' do
 
     it 'creates a message based on the params' do
       offer.reload
-      expect(offer.conversation.messages.last['content']).to eq "message content"
+      expect(offer.conversation.messages.last['content']).to eq 'message content'
     end
   end
 

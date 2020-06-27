@@ -3,7 +3,7 @@
 RSpec.describe ApplicationCable::Connection, type: :channel do
   let(:user) { create(:user) }
   it 'successfully connects' do
-    connect "/cable?uid=#{user.id}"
+    connect "/cable?uid=#{user.email}"
     expect(connection.current_user).to eq user
   end
 

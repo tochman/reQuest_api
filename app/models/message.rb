@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Message < ApplicationRecord
   belongs_to :conversation
   belongs_to :sender, class_name: 'User'
@@ -13,6 +15,10 @@ class Message < ApplicationRecord
   end
 
   def broadcast
-    ActionCable.server.broadcast("offer_conversation_#{conversation.offer.id}", message: content )
+    data = { content: content, sender_id: sender.id }
+    ActionCable.server.broadcast(
+      "offer_conversation_#{conversation.offer.id}",
+      message: data
+    )
   end
 end
