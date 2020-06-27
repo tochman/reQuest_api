@@ -24,6 +24,15 @@ class Request < ApplicationRecord
     true
   end
 
+  def validate_quester(user)
+    valid = user
+            .offers.where.not(status: 'declined')
+            .map(&:request).include?(self)
+    raise StandardError, 'This is not your Quest' unless valid
+
+    true
+  end
+
   def update_when_offer_accepted(helper)
     update(status: 'active', helper: helper)
   end

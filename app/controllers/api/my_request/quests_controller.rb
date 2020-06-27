@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::MyRequest::QuestsController < ApplicationController
-  before_action :authenticate_user!, only: %i[index]
+  before_action :authenticate_user!, only: %i[index show]
 
   def index
     pending = current_user.offers.where(status: 'pending').map(&:request)
@@ -13,5 +13,11 @@ class Api::MyRequest::QuestsController < ApplicationController
     else
       render json: quests, each_serializer: MyRequest::Quest::IndexSerializer, root: 'quests'
     end
+  end
+
+  def show
+    quest = Request.find(params[:id])
+    quest.validate_quester(current_user)
+    render json: quest, serializer: MyRequest::Quest::ShowSerializer, root: 'quest'
   end
 end
